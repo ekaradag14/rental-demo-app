@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600&display=swap');
+
+.highlight-two {
+	background-color: rgba(255, 145, 0, 0.8);
+	transition: all 0.2s ease;
+}
+
+.highlight-first {
+	background-color: yellow;
+	text-shadow: none;
+}
+
+.highlight-select {
+	opacity: 0.8;
+	color: #bcff94;
+	background-color: #bcff94;
+	text-shadow: none;
+}
+
+#main-writing-area::selection {
+	opacity: 0.8;
+	background-color: #aaee82;
+}
+
+html {
+	--webkit-font-smoothing: auto;
+}
+
+body {
+	font-size: 0.875rem;
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	font-weight: 500;
+	line-height: 1.43;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #ddd;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+pre {
+	white-space: pre-wrap;
+	font-family: inherit;
+}
