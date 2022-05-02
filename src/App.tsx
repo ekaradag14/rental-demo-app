@@ -5,10 +5,8 @@ import {
 	Switch,
 } from 'react-router-dom';
 import { AlertBar } from './components/AlertBar/AlertBar';
-import { ThemeProvider } from '@mui/styles';
-import theme from './assets/theme';
-import { StyledEngineProvider } from '@mui/material/styles';
-import { CssBaseline, GlobalStyles } from '@mui/material';
+import AppBar from './components/AppBar/AppBar';
+
 import './assets/style.css';
 // import ViewBlogDialogue from '../../common/components/ViewBlogDialogue/ViewBlogDialogue';
 // import { useAppDispatch, useAppSelector } from '../../common/redux/hooks';
@@ -18,51 +16,49 @@ import './assets/style.css';
 // import { Main } from './Main/Main';
 import { WelcomePage } from './pages/Welcome/WelcomePage';
 import { HomePage } from './pages/Home/HomePage';
+import { CreateBikePage } from './pages/CreateBike/CreateBikePage';
 const App = () => {
 	// const dispatch = useAppDispatch();
 	// const { isAuth } = useAppSelector((state) => state.auth);
 	// const { dialogs, alert } = useAppSelector((state) => state.common);
-	const isAuth = false;
+	const isAuth = true;
 	return (
 		<>
-			<StyledEngineProvider injectFirst>
-				<ThemeProvider theme={theme}>
-					<CssBaseline enableColorScheme />
+			<Router>
+				{isAuth ? (
+					<>
+						<AppBar />
+						<Switch>
+							{routes.auth.map(({ path, exact, component }, index) => (
+								<Route
+									key={index}
+									exact={exact}
+									path={path}
+									component={component}
+								/>
+							))}
+						</Switch>
+					</>
+				) : (
+					<WelcomePage>
+						{routes.notAuth.map(({ path, exact, component }, index) => (
+							<Route
+								key={index}
+								path={path}
+								exact={exact}
+								component={component}
+							/>
+						))}
+					</WelcomePage>
+				)}
+			</Router>
 
-					<Router>
-						{isAuth ? (
-							<Switch>
-								{routes.auth.map(({ path, exact, component }, index) => (
-									<Route
-										key={index}
-										exact={exact}
-										path={path}
-										component={component}
-									/>
-								))}
-							</Switch>
-						) : (
-							<WelcomePage>
-								{routes.notAuth.map(({ path, exact, component }, index) => (
-									<Route
-										key={index}
-										path={path}
-										exact={exact}
-										component={component}
-									/>
-								))}
-							</WelcomePage>
-						)}
-					</Router>
-
-					{/* {alert?.isOpen && (
+			{/* {alert?.isOpen && (
 				<AlertBar
 					{...alert}
 					alertClear={() => dispatch(CommonActions.clearAlert())}
 				/>
 			)} */}
-				</ThemeProvider>
-			</StyledEngineProvider>
 		</>
 	);
 };
@@ -70,14 +66,19 @@ const App = () => {
 const routes = {
 	auth: [
 		{
-			exact: false,
+			exact: true,
 			path: '/home',
 			component: HomePage,
 		},
 		{
+			exact: true,
+			path: '/create-bike',
+			component: CreateBikePage,
+		},
+		{
 			exact: false,
-			path: '/',
-			component: () => <Redirect to="/" />,
+			path: '*',
+			component: () => <Redirect to="/home" />,
 		},
 	],
 	notAuth: [

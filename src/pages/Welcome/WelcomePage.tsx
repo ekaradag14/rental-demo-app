@@ -65,12 +65,7 @@ export const WelcomePage = ({ match }: any) => {
 						<Grid>
 							<Switch>
 								{routes.map((route, index) => (
-									<Route
-										key={index}
-										path={route.path}
-										exact={route.exact}
-										component={route.component}
-									/>
+									<Route key={index} {...route} />
 								))}
 							</Switch>
 						</Grid>

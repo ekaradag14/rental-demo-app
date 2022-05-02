@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStyles } from './AppBar.style';
 import { AppBarProps } from './AppBar.types';
-
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,13 +15,29 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [
+	{ label: 'Home', route: '/home' },
+	{ label: 'Create Bike', route: '/create-bike' },
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const AppBarComponent = () => {
 	const classes = useStyles();
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+	const history = useHistory();
+	const [activeRoute, setActiveRoute] = useState('/');
+	const match: any = useRouteMatch('*');
+
+	useEffect(() => {
+		if (match.url !== activeRoute) {
+			if (match.url.lastIndexOf('/') > 0) {
+				setActiveRoute('/' + match.url.split('/')[1]);
+			} else {
+				setActiveRoute(match.url);
+			}
+		}
+	}, [match.url]);
 
 	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElNav(event.currentTarget);
@@ -36,6 +52,11 @@ const AppBarComponent = () => {
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+	const routePush = (newRoute: string) => {
+		if (newRoute !== activeRoute) {
+			history.push(newRoute);
+		}
 	};
 	return (
 		<AppBar position="static">
@@ -84,8 +105,8 @@ const AppBarComponent = () => {
 							}}
 						>
 							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography textAlign="center">{page}</Typography>
+								<MenuItem key={page.label} onClick={handleCloseNavMenu}>
+									<Typography textAlign="center">{page.label}</Typography>
 								</MenuItem>
 							))}
 						</Menu>
@@ -101,11 +122,14 @@ const AppBarComponent = () => {
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						{pages.map((page) => (
 							<Button
-								key={page}
-								onClick={handleCloseNavMenu}
+								key={page.label}
+								onClick={() => {
+									handleCloseNavMenu();
+									routePush(page.route);
+								}}
 								sx={{ my: 2, color: 'white', display: 'block' }}
 							>
-								{page}
+								{page.label}
 							</Button>
 						))}
 					</Box>
