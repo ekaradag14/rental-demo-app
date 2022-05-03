@@ -11,6 +11,12 @@ import { Grid } from '@mui/material';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
+import { WelcomePage } from './pages/Welcome/WelcomePage';
+import { HomePage } from './pages/Home/HomePage';
+import { CreateBikePage } from './pages/CreateBike/CreateBikePage';
+import { SearchPage } from './pages/Search/SearchPage';
+import { AppDataPage } from './pages/AppData/AppDataPage';
+
 import BikesContext from './contexts/bikes/context';
 import bikeReducer from './contexts/bikes/reducer';
 import { bikesData } from './data/bikes';
@@ -27,11 +33,6 @@ import './assets/style.css';
 // import { useAppDispatch, useAppSelector } from '../../common/redux/hooks';
 // import { CommonActions } from '../../common/contexts/CommonSlice';
 
-import { WelcomePage } from './pages/Welcome/WelcomePage';
-import { HomePage } from './pages/Home/HomePage';
-import { CreateBikePage } from './pages/CreateBike/CreateBikePage';
-import { SearchPage } from './pages/Search/SearchPage';
-import { constants } from 'perf_hooks';
 const defaultAuthRoutes = [
 	{
 		exact: true,
@@ -55,8 +56,8 @@ const defaultAuthRoutes = [
 const managerAuthRoutes = [
 	{
 		exact: true,
-		path: '/create-bike',
-		component: CreateBikePage,
+		path: '/app-data',
+		component: AppDataPage,
 	},
 	{
 		exact: true,

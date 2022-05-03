@@ -4,7 +4,7 @@ module.exports = {
 			icon: { marginTop: 20, color: 'gray' },
 			root: {
 				maxWidth: 720,
-				minHeight: 200,
+				minHeight: 250,
 				marginTop: 23,
 				justifyContent: 'center',
 			},

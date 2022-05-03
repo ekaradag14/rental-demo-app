@@ -96,90 +96,102 @@ export const CreateBikePage = (props: any) => {
 			);
 	};
 	return (
-		<Form onSubmit={handleSubmit}>
-			<Grid container style={{ padding: 10 }}>
-				<Grid
-					container
-					item
-					sm={6}
-					spacing={3}
-					style={{ padding: 10, display: 'flex', flexDirection: 'row' }}
-				>
-					{formFields.map((el) => (
-						<Grid item sm={12} key={el.label}>
-							<TextField
-								fullWidth
-								name={el.name}
-								label={el.label}
-								variant="outlined"
-								value={values[el.name]}
-								onChange={handleInputChange}
-								helperText={errors[el.name]}
-								error={!!errors[el.name]}
-							/>
-						</Grid>
-					))}
-				</Grid>
-				<Grid
-					container
-					item
-					sm={5}
-					spacing={3}
-					style={{
-						padding: 10,
-						marginLeft: 'auto',
-						display: 'flex',
-						flexDirection: 'row',
-						maxHeight: 350,
-					}}
-				>
-					<MuiThemeProvider theme={theme}>
-						<DropzoneArea
-							style={{ height: 350 }}
-							key={dropzoneKey}
-							acceptedFiles={['image/png', 'image/jpg', 'image/jpeg']}
-							onChange={setImageToBeUploaded}
-							filesLimit={1}
-							maxFileSize={maxFileSize}
-							showPreviewsInDropzone={true}
-							clearOnUnmount={true}
-							getFileRemovedMessage={getFileRemovedMessage}
-							getFileAddedMessage={getFileAddedMessage}
-							getDropRejectMessage={getDropRejectMessage}
-							dropzoneText={
-								imageToBeUploaded.length === 0 ? 'Drag & Drop For Images' : ''
-							}
-							// @ts-ignore
-							Icon={AddPhotoAlternateIcon}
-							// @ts-ignore
-							getPreviewIcon={previewIconFunction}
-						/>
-					</MuiThemeProvider>
-				</Grid>
-			</Grid>
-			<Grid
-				container
-				item
-				xs={12}
-				style={{ display: 'flex', alignItems: 'center' }}
-			>
-				<Grid item sm={6} style={{ display: 'flex', alignItems: 'center' }}>
-					<Button style={{ width: '50%' }} variant="contained" type="submit">
-						Submit
-					</Button>
-				</Grid>
-				<Grid item sm={6} style={{ display: 'flex', alignItems: 'center' }}>
-					<Button
-						style={{ width: '50%' }}
-						variant="contained"
-						color="secondary"
-						onClick={resetForm}
+		<Grid>
+			<Form onSubmit={handleSubmit}>
+				<Grid container style={{ padding: 10 }}>
+					<Grid
+						container
+						item
+						sm={5}
+						spacing={3}
+						style={{ padding: 10, display: 'flex', flexDirection: 'row' }}
 					>
-						Reset
-					</Button>
+						{formFields.map((el) => (
+							<Grid item sm={12} key={el.label}>
+								<TextField
+									fullWidth
+									multiline={el.name === 'description'}
+									minRows={3}
+									name={el.name}
+									label={el.label}
+									variant="outlined"
+									value={values[el.name]}
+									onChange={handleInputChange}
+									helperText={errors[el.name]}
+									error={!!errors[el.name]}
+								/>
+							</Grid>
+						))}
+					</Grid>
+					<Grid
+						container
+						item
+						sm={6}
+						spacing={1}
+						style={{
+							padding: 10,
+							marginLeft: 'auto',
+							display: 'flex',
+							flexDirection: 'row',
+							maxHeight: 350,
+						}}
+					>
+						<MuiThemeProvider theme={theme}>
+							<DropzoneArea
+								style={{ height: 450 }}
+								key={dropzoneKey}
+								acceptedFiles={['image/png', 'image/jpg', 'image/jpeg']}
+								onChange={setImageToBeUploaded}
+								filesLimit={1}
+								maxFileSize={maxFileSize}
+								showPreviewsInDropzone={true}
+								clearOnUnmount={true}
+								getFileRemovedMessage={getFileRemovedMessage}
+								getFileAddedMessage={getFileAddedMessage}
+								getDropRejectMessage={getDropRejectMessage}
+								dropzoneText={
+									imageToBeUploaded.length === 0 ? 'Drag & Drop For Images' : ''
+								}
+								// @ts-ignore
+								Icon={AddPhotoAlternateIcon}
+								// @ts-ignore
+								getPreviewIcon={previewIconFunction}
+							/>
+						</MuiThemeProvider>
+					</Grid>
 				</Grid>
-			</Grid>
-		</Form>
+				<Grid
+					container
+					item
+					xs={12}
+					style={{ display: 'flex', alignItems: 'center', paddingBottom: 20 }}
+				>
+					<Grid
+						item
+						sm={6}
+						style={{ display: 'flex', alignItems: 'center', margin: 'auto' }}
+					>
+						<Button
+							style={{ width: '50%', margin: 'auto' }}
+							variant="contained"
+							type="submit"
+						>
+							Submit
+						</Button>
+					</Grid>
+					<Grid item sm={6} style={{ display: 'flex', alignItems: 'center' }}>
+						<Button
+							style={{ width: '50%', margin: 'auto' }}
+							variant="contained"
+							color="secondary"
+							onClick={resetForm}
+						>
+							Reset
+						</Button>
+					</Grid>
+				</Grid>
+			</Form>
+		</Grid>
 	);
 };
 

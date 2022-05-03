@@ -21,7 +21,6 @@ const pages = [
 	{ label: 'Home', route: '/home' },
 	{ label: 'Search', route: '/search' },
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const AppBarComponent = () => {
 	const classes = useStyles();
@@ -32,11 +31,10 @@ const AppBarComponent = () => {
 	const history = useHistory();
 	const [activeRoute, setActiveRoute] = useState('/');
 	const match: any = useRouteMatch('*');
-	if (
-		user.role === 'manager' &&
-		!pages.filter((el) => el.route === '/create-bike').length
-	) {
-		pages.push({ label: 'Create Bike', route: '/create-bike' });
+	if (user.role === 'manager') {
+		if (!pages.filter((el) => el.route === '/app-data').length) {
+			pages.push({ label: 'App Data', route: '/app-data' });
+		}
 	}
 	useEffect(() => {
 		if (match.url !== activeRoute) {
