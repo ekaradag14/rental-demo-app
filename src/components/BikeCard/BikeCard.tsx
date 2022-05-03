@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
+import { GetColorName } from 'hex-color-to-color-name';
 import { RatingStars } from './RatingStars';
 
 export const BikeCard = ({
@@ -76,7 +76,7 @@ export const BikeCard = ({
 							color="text.secondary"
 							style={{ paddingRight: 4 }}
 						>
-							Color
+							{GetColorName(color)}
 						</Typography>
 						<Grid
 							style={{

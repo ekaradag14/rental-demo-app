@@ -5,10 +5,17 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export const DatePickerFilter = ({}) => {
-	const [startDate, setStartDate] = useState<Date | null>(null);
-	const [endDate, setEndDate] = useState<Date | null>(null);
-
+export const DatePickerFilter = ({
+	startDate,
+	setStartDate,
+	endDate,
+	setEndDate,
+}: {
+	startDate: Date | null;
+	setStartDate: any;
+	endDate: Date | null;
+	setEndDate: any;
+}) => {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
 			<Grid style={{ marginBottom: 20, paddingLeft: 5 }}>

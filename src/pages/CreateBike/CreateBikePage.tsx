@@ -36,6 +36,7 @@ const initialFValues = {
 };
 let maxFileSize = 10000000;
 let maxFileSizeInMB = maxFileSize / 1000000;
+const hexRegex = new RegExp('^#(?:[0-9a-fA-F]{3}){1,2}$');
 export const CreateBikePage = (props: any) => {
 	// const classes = useStyles();
 	const [imageToBeUploaded, setImageToBeUploaded] = useState<File[]>([]);
@@ -47,8 +48,12 @@ export const CreateBikePage = (props: any) => {
 		let temp = { ...errors };
 		if ('model' in fieldValues)
 			temp.model = fieldValues.model ? '' : 'Model is required.';
-		if ('color' in fieldValues)
-			temp.color = fieldValues.color ? '' : 'Color is required.';
+		if ('color' in fieldValues) {
+			temp.color = hexRegex.test(fieldValues.color)
+				? ''
+				: 'Please insert a HEX value';
+		}
+
 		if ('location' in fieldValues)
 			temp.location = fieldValues.location ? '' : 'Location is required.';
 		if ('description' in fieldValues)
