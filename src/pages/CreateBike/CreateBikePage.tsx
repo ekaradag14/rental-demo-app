@@ -8,10 +8,7 @@ import {
 	RadioGroup,
 	Select,
 } from '@mui/material';
-import { Cover } from '../../components/Cover/Cover';
-import { BikeCard } from '../../components/BikeCard/BikeCard';
-import AppBar from '../../components/AppBar/AppBar';
-import bikeImage from '../../assets/bikes/bike1.jpg';
+
 import overrideTheme from './uploadImageTheme';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles';
@@ -22,11 +19,6 @@ import {
 	PreviewIconProps,
 } from 'material-ui-dropzone';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-const genderItems = [
-	{ id: 'male', title: 'Male' },
-	{ id: 'female', title: 'Female' },
-	{ id: 'other', title: 'Other' },
-];
 
 const initialFValues = {
 	model: '',

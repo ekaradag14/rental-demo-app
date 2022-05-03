@@ -29,7 +29,11 @@ export const BikeCard = ({
 			<CardMedia component="img" height="140" image={img} alt="green iguana" />
 			<CardContent style={{ paddingBottom: 0 }}>
 				<Grid style={{ display: 'flex', flexDirection: 'row' }}>
-					<Typography variant="h5" component="div">
+					<Typography
+						style={{ width: '100%' }}
+						variant="subtitle1"
+						component="div"
+					>
 						{model}
 					</Typography>
 					<RatingStars rating={rating} />

@@ -1,33 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { Grid, Box } from '@mui/material';
 
 import { useStyles } from './SearchPage.style';
 import { SearchDrawer } from '../../components/SearchDrawer/SearchDrawer';
 import { BikeCard } from '../../components/BikeCard/BikeCard';
-import bikeImage from '../../assets/bikes/bike1.jpg';
+import BikesContext from '../../contexts/bikes/context';
+import { BikeProps } from '../../common/types';
 
 export const SearchPage = (props: any) => {
 	const classes = useStyles();
-	const [bikes, setBikes] = useState(bikesData);
+	//@ts-ignore
+	const { bikes, bikesDispatch } = useContext(BikesContext);
+	const [bikeResults, setBikeResults] = useState(bikes);
 	const [renderKey, setRenderKey] = useState(0);
 	const [modelData, setModelData] = useState<any[]>([]);
 	const [colorData, setColorData] = useState<any[]>([]);
 	const [locationData, setLocationData] = useState<any[]>([]);
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [endDate, setEndDate] = useState<Date | null>(null);
-	// useEffect(() => {
-	// 	let selectedModels: string[] = modelData
-	// 		.filter((el) => el.checked)
-	// 		.map((el) => el.label);
-
-	// 	if (selectedModels.length) {
-	// 		setBikes((bikes) =>
-	// 			bikes.filter((el) => selectedModels.includes(el.model))
-	// 		);
-	// 	}
-	// 	setRenderKey((renderKey) => renderKey + 1);
-	// }, [modelData]);
 
 	const handleFilterData = (newData: any, type: string) => {
 		if (type === 'models') {
@@ -37,7 +28,7 @@ export const SearchPage = (props: any) => {
 		} else if (type === 'colors') {
 			setColorData(newData);
 		}
-		let searchResults = [...bikesData];
+		let searchResults = [...bikes];
 
 		let selectedModels: string[] = modelData
 			.filter((el) => el.checked)
@@ -68,13 +59,13 @@ export const SearchPage = (props: any) => {
 			);
 		}
 
-		setBikes(searchResults);
+		setBikeResults(searchResults);
 		setRenderKey((renderKey) => renderKey + 1);
 	};
 
 	useEffect(() => {
 		let models: any[] = [];
-		bikesData.forEach((bike) => {
+		bikes.forEach((bike: BikeProps) => {
 			if (!models.includes(bike.model)) {
 				models.push(bike.model);
 			}
@@ -83,7 +74,7 @@ export const SearchPage = (props: any) => {
 		setModelData(models);
 
 		let locations: any[] = [];
-		bikesData.forEach((bike) => {
+		bikes.forEach((bike: BikeProps) => {
 			if (!locations.includes(bike.location)) {
 				locations.push(bike.location);
 			}
@@ -92,7 +83,7 @@ export const SearchPage = (props: any) => {
 		setLocationData(locations);
 
 		let colors: any[] = [];
-		bikesData.forEach((bike) => {
+		bikes.forEach((bike: BikeProps) => {
 			if (!colors.includes(bike.color)) {
 				colors.push(bike.color);
 			}
@@ -104,21 +95,23 @@ export const SearchPage = (props: any) => {
 	useEffect(() => {
 		if (startDate && endDate) {
 			console.log(startDate.getTime(), endDate.getTime());
-			setBikes(() =>
-				bikesData.filter((el) => {
+			setBikeResults(() =>
+				bikes.filter((el: BikeProps) => {
 					let isBookedForThatTime = false;
-					el.reservations.forEach((reservation) => {
-						if (
-							dateRangeOverlaps(
-								reservation.start,
-								reservation.end,
-								startDate.getTime(),
-								endDate.getTime()
-							)
-						) {
-							isBookedForThatTime = true;
+					el.reservations.forEach(
+						(reservation: { start: number; end: number }) => {
+							if (
+								dateRangeOverlaps(
+									reservation.start,
+									reservation.end,
+									startDate.getTime(),
+									endDate.getTime()
+								)
+							) {
+								isBookedForThatTime = true;
+							}
 						}
-					});
+					);
 					return !isBookedForThatTime;
 				})
 			);
@@ -153,8 +146,8 @@ export const SearchPage = (props: any) => {
 			</Grid>
 			<Grid item sm={10}>
 				<Grid container paddingX={3} spacing={4} marginTop={3} key={renderKey}>
-					{bikes.length ? (
-						bikes.map(
+					{bikeResults.length ? (
+						bikeResults.map(
 							({
 								id,
 								model,
@@ -164,7 +157,7 @@ export const SearchPage = (props: any) => {
 								available,
 								img,
 								description,
-							}) => (
+							}: BikeProps) => (
 								<Grid key={id} item xs={2} sm={3} md={3}>
 									<BikeCard
 										model={model}
@@ -186,69 +179,6 @@ export const SearchPage = (props: any) => {
 		</Grid>
 	);
 };
-
-export const bikesData = [
-	{
-		id: 0,
-		model: 'Gallardo',
-		color: '#003E40',
-		location: 'Berlin',
-		rating: 4.5,
-		available: true,
-		img: bikeImage,
-		reservations: [{ start: 1652276477000, end: 1652362879000 }],
-		description:
-			'Deserunt non eiusmod qui consectetur et adipisicing reprehenderit ex dolore ullamco ut aliquip consequat ex.',
-	},
-	{
-		id: 1,
-		model: 'Lambardo',
-		color: '#003E40',
-		location: 'Berlin',
-		rating: 3.8,
-		available: true,
-		img: bikeImage,
-		reservations: [],
-		description:
-			'Deserunt non eiusmod qui consectetur et adipisicing reprehenderit ex dolore ullamco ut aliquip consequat ex.',
-	},
-	{
-		id: 2,
-		model: 'Gallardo',
-		color: '#06A189',
-		location: 'Madrid',
-		rating: 4.8,
-		available: false,
-		img: bikeImage,
-		reservations: [],
-		description:
-			'Deserunt non eiusmod qui consectetur et adipisicing reprehenderit ex dolore ullamco ut aliquip consequat ex.',
-	},
-	{
-		id: 3,
-		model: 'Gallardo3',
-		color: '#0B0B0B',
-		location: 'Berlin',
-		rating: 4.8,
-		available: true,
-		img: bikeImage,
-		reservations: [],
-		description:
-			'Deserunt non eiusmod qui consectetur et adipisicing reprehenderit ex dolore ullamco ut aliquip consequat ex.',
-	},
-	{
-		id: 4,
-		model: 'Gallardo4',
-		color: '#480404',
-		location: 'Berlin',
-		rating: 4.8,
-		available: true,
-		img: bikeImage,
-		reservations: [],
-		description:
-			'Deserunt non eiusmod qui consectetur et adipisicing reprehenderit ex dolore ullamco ut aliquip consequat ex.',
-	},
-];
 
 function dateRangeOverlaps(
 	a_start: number,

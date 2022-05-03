@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useStyles } from './AppBar.style';
 import { AppBarProps } from './AppBar.types';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -14,22 +14,30 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import UserContext from '../../contexts/user/context';
 
+import { setUser } from '../../contexts/user/dispatchController';
 const pages = [
 	{ label: 'Home', route: '/home' },
-	{ label: 'Create Bike', route: '/create-bike' },
 	{ label: 'Search', route: '/search' },
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const AppBarComponent = () => {
 	const classes = useStyles();
+	//@ts-ignore
+	const { user, userDispatch } = useContext(UserContext);
 	const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 	const history = useHistory();
 	const [activeRoute, setActiveRoute] = useState('/');
 	const match: any = useRouteMatch('*');
-
+	if (
+		user.role === 'manager' &&
+		!pages.filter((el) => el.route === '/create-bike').length
+	) {
+		pages.push({ label: 'Create Bike', route: '/create-bike' });
+	}
 	useEffect(() => {
 		if (match.url !== activeRoute) {
 			if (match.url.lastIndexOf('/') > 0) {
@@ -58,6 +66,10 @@ const AppBarComponent = () => {
 		if (newRoute !== activeRoute) {
 			history.push(newRoute);
 		}
+	};
+
+	const handleLogout = () => {
+		userDispatch(setUser(null));
 	};
 	return (
 		<AppBar
@@ -141,7 +153,9 @@ const AppBarComponent = () => {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+								<Avatar alt="Remy Sharp">
+									{user.firstName[0] + user.lastName[0]}
+								</Avatar>
 							</IconButton>
 						</Tooltip>
 						<Menu
@@ -160,11 +174,9 @@ const AppBarComponent = () => {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
-								</MenuItem>
-							))}
+							<MenuItem onClick={handleLogout}>
+								<Typography textAlign="center">Logout</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 				</Toolbar>

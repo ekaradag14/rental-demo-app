@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import {
 	BrowserRouter as Router,
 	Route,
@@ -10,6 +11,17 @@ import { Grid } from '@mui/material';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
+import BikesContext from './contexts/bikes/context';
+import bikeReducer from './contexts/bikes/reducer';
+import { bikesData } from './data/bikes';
+
+import UserContext from './contexts/user/context';
+import userReducer from './contexts/user/reducer';
+
+import AllUserContext from './contexts/allUsers/context';
+import allUserReducer from './contexts/allUsers/reducer';
+import { usersData } from './data/users';
+
 import './assets/style.css';
 // import ViewBlogDialogue from '../../common/components/ViewBlogDialogue/ViewBlogDialogue';
 // import { useAppDispatch, useAppSelector } from '../../common/redux/hooks';
@@ -19,45 +31,65 @@ import { WelcomePage } from './pages/Welcome/WelcomePage';
 import { HomePage } from './pages/Home/HomePage';
 import { CreateBikePage } from './pages/CreateBike/CreateBikePage';
 import { SearchPage } from './pages/Search/SearchPage';
+import { constants } from 'perf_hooks';
+const defaultAuthRoutes = [
+	{
+		exact: true,
+		path: '/home',
+		component: HomePage,
+	},
+
+	{
+		exact: true,
+		path: '/search',
+		component: SearchPage,
+	},
+
+	{
+		exact: false,
+		path: '*',
+		component: () => <Redirect to="/home" />,
+	},
+];
+
+const managerAuthRoutes = [
+	{
+		exact: true,
+		path: '/create-bike',
+		component: CreateBikePage,
+	},
+	{
+		exact: true,
+		path: '/home',
+		component: HomePage,
+	},
+
+	{
+		exact: true,
+		path: '/search',
+		component: SearchPage,
+	},
+
+	{
+		exact: false,
+		path: '*',
+		component: () => <Redirect to="/home" />,
+	},
+];
+
 const App = () => {
 	// const dispatch = useAppDispatch();
 	// const { isAuth } = useAppSelector((state) => state.auth);
 	// const { dialogs, alert } = useAppSelector((state) => state.common);
-	const isAuth = true;
-	const isManager = true;
 
-	let defaultAuthRoutes = [
-		{
-			exact: true,
-			path: '/home',
-			component: HomePage,
-		},
-
-		{
-			exact: true,
-			path: '/search',
-			component: SearchPage,
-		},
-
-		{
-			exact: false,
-			path: '*',
-			component: () => <Redirect to="/home" />,
-		},
-	];
-	if (isManager) {
-		defaultAuthRoutes = [
-			{
-				exact: true,
-				path: '/create-bike',
-				component: CreateBikePage,
-			},
-			...defaultAuthRoutes,
-		];
-	}
+	const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);
+	const [user, userDispatch] = useReducer(userReducer, UserContext);
+	const [allUsers, allUserDispatch] = useReducer(allUserReducer, usersData);
+	const isAuth = !!user?.email;
+	const isManager = user?.role === 'manager';
 
 	const routes = {
-		auth: defaultAuthRoutes,
+		auth: isManager ? managerAuthRoutes : defaultAuthRoutes,
 		notAuth: [
 			{
 				exact: true,
@@ -67,38 +99,46 @@ const App = () => {
 			},
 		],
 	};
+
 	return (
 		<>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<Router>
-					{isAuth ? (
-						<>
-							<AppBar />
-							<Grid style={{ height: 70 }} />
-							<Switch>
-								{routes.auth.map(({ path, exact, component }, index) => (
-									<Route
-										key={index}
-										exact={exact}
-										path={path}
-										component={component}
-									/>
-								))}
-							</Switch>
-						</>
-					) : (
-						<WelcomePage>
-							{routes.notAuth.map(({ path, exact, component }, index) => (
-								<Route
-									key={index}
-									path={path}
-									exact={exact}
-									component={component}
-								/>
-							))}
-						</WelcomePage>
-					)}
-				</Router>
+				<UserContext.Provider value={{ user, userDispatch }}>
+					<AllUserContext.Provider value={{ allUsers, allUserDispatch }}>
+						<Router>
+							{isAuth ? (
+								<>
+									{/* @ts-ignore */}
+									<BikesContext.Provider value={{ bikes, bikesDispatch }}>
+										<AppBar />
+										<Grid style={{ height: 70 }} />
+										<Switch>
+											{routes.auth.map(({ path, exact, component }, index) => (
+												<Route
+													key={index}
+													exact={exact}
+													path={path}
+													component={component}
+												/>
+											))}
+										</Switch>
+									</BikesContext.Provider>
+								</>
+							) : (
+								<WelcomePage>
+									{routes.notAuth.map(({ path, exact, component }, index) => (
+										<Route
+											key={index}
+											path={path}
+											exact={exact}
+											component={component}
+										/>
+									))}
+								</WelcomePage>
+							)}
+						</Router>
+					</AllUserContext.Provider>
+				</UserContext.Provider>
 			</MuiPickersUtilsProvider>
 			{/* {alert?.isOpen && (
 				<AlertBar

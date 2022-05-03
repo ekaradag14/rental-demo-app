@@ -1,4 +1,4 @@
-import { useState, useRef, SyntheticEvent } from 'react';
+import { useState, useRef, SyntheticEvent, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import {
@@ -17,68 +17,52 @@ import { TextField } from '..//TextField/TextField';
 // import { CommonActions } from '../../../common/contexts/CommonSlice';
 // import { alertMessages } from '../../../common/helper/alertMessages';
 import { useStyles } from './Login.style';
+import AllUserContext from '../../contexts/allUsers/context';
 
+import UserContext from '../../contexts/user/context';
+import { setUser } from '../../contexts/user/dispatchController';
+import { UserProps } from '../../common/types';
+var CryptoJS = require('crypto-js');
 export const Login = () => {
 	const classes = useStyles();
 	// const dispatch = useAppDispatch();
-
+	const { user, userDispatch } = useContext(UserContext);
+	const { allUsers } = useContext(AllUserContext);
 	const [loading, setLoading] = useState(false);
-	const [keepMeLogged, setKeepMeLogged] = useState(true);
 
 	const emailRef = useRef({ value: '' });
 	const passwordRef = useRef({ value: '' });
 
-	// let handleSubmit = async (event: SyntheticEvent) => {
-	// 	event.preventDefault();
-	// 	setLoading(true);
-	// 	if (window.screen.width < 700) {
-	// 		dispatch(
-	// 			CommonActions.createAlert(
-	// 				alertMessages.CUSTOM_ERROR('No mobile entry.')
-	// 			)
-	// 		);
-	// 		setLoading(false);
-	// 		return;
-	// 	}
+	let handleSubmit = (event) => {
+		event.preventDefault();
+		setLoading(true);
 
-	// 	const userData = {
-	// 		email: emailRef.current.value,
-	// 		password: passwordRef.current.value,
-	// 		remember: keepMeLogged,
-	// 	};
+		const userData = {
+			email: emailRef.current.value,
+			password: passwordRef.current.value,
+		};
 
-	// 	await loginAPI(userData)
-	// 		.then((res) => {
-	// 			if (res?.data?.data?.token && res?.data?.data?.userID) {
-	// 				setTimeout(() => {
-	// 					dispatch(AuthActions.setAuthData(res.data.data));
-	// 				}, 2000);
-	// 			} else {
-	// 				dispatch(
-	// 					CommonActions.createAlert(
-	// 						alertMessages.CUSTOM_ERROR('Email or password incorrect.')
-	// 					)
-	// 				);
-	// 			}
-	// 		})
-	// 		.catch((err) => {
-	// 			if (err.response && err.response.status === 401) {
-	// 				dispatch(
-	// 					CommonActions.createAlert(
-	// 						alertMessages.CUSTOM_ERROR('Email or password incorrect.')
-	// 					)
-	// 				);
-	// 			} else {
-	// 				dispatch(CommonActions.createAlert(alertMessages.SOMETHING_WRONG));
-	// 			}
-	// 		});
+		let isValidUser = null;
+		allUsers.forEach((el: UserProps) => {
+			if (
+				el.email === userData.email &&
+				CryptoJS.AES.decrypt(el.password, el.email).toString(
+					CryptoJS.enc.Utf8
+				) === userData.password
+			) {
+				isValidUser = el;
+			}
+		});
+		if (isValidUser) {
+			userDispatch(setUser(isValidUser));
+		}
 
-	// 	setLoading(false);
-	// };
+		setLoading(false);
+	};
 
 	return (
 		<div>
-			<form className={classes.form}>
+			<form className={classes.form} onSubmit={handleSubmit}>
 				<Grid spacing={1} container>
 					<Grid xs={12} item>
 						<TextField
@@ -102,30 +86,7 @@ export const Login = () => {
 							required
 						/>
 					</Grid>
-					<Grid item sm={6} className={classes.checkPosition}>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={keepMeLogged}
-									onChange={() => setKeepMeLogged(!keepMeLogged)}
-									name="keepMeLogged"
-									style={{ color: 'white' }}
-								/>
-							}
-							label="Keep Me Logged In"
-							className={classes.check}
-						/>
-					</Grid>
-					<Grid item sm={6} className={classes.forgot}>
-						<Link
-							to="/forgot-password"
-							className={classes.link}
-							variant="body2"
-							component={RouterLink}
-						>
-							Forgot Password
-						</Link>
-					</Grid>
+
 					<Grid xs={12} item>
 						<Button
 							type="submit"

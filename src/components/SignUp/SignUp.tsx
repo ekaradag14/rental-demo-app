@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Grid, Link } from '@mui/material';
-import { ChangeEvent, SyntheticEvent, useState } from 'react';
+import { ChangeEvent, SyntheticEvent, useState, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from '../TextField/TextField';
 // import { CommonActions } from '../../../common/contexts/CommonSlice';
@@ -8,11 +8,15 @@ import { alertMessages } from '../../common/helper/alertMessages';
 // import { AuthActions } from '../../../user/contexts/AuthorizationSlice';
 // import { loginAPI, signupAPI } from '../../../user/helper/userAPI';
 import { useStyles } from './SignUp.style';
+import UserContext from '../../contexts/user/context';
+import { setUser } from '../../contexts/user/dispatchController';
+var CryptoJS = require('crypto-js');
 
 export const SignUp = () => {
 	const classes = useStyles();
 	// const dispatch = useAppDispatch();
-
+	//@ts-ignore
+	const { user, userDispatch } = useContext(UserContext);
 	const [errors, setErrors] = useState<any>(emptyError);
 	const [loading, setLoading] = useState(false);
 	const [formValues, setFormValues] = useState(emptyData);
@@ -24,82 +28,43 @@ export const SignUp = () => {
 		setFormValues({ ...formValues, [event.target.name]: event.target.value });
 	};
 
-	// let handleSubmit = async (event: SyntheticEvent) => {
-	// 	event.preventDefault();
-	// 	setLoading(true);
+	let handleSubmit = async (event: SyntheticEvent) => {
+		event.preventDefault();
+		setLoading(true);
 
-	// 	const emailRegEx =
-	// 		/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	// 	if (!formValues.email.match(emailRegEx)) {
-	// 		setErrors({ ...errors, email: 'Please enter a valid email.' });
-	// 		setLoading(false);
-	// 		return;
-	// 	} else if (formValues.password.length < 6) {
-	// 		setErrors({
-	// 			...errors,
-	// 			password: 'Password must be at least 6 characters.',
-	// 		});
-	// 		setLoading(false);
-	// 		return;
-	// 	} else if (isMobileBrowser) {
-	// 		dispatch(
-	// 			CommonActions.createAlert(
-	// 				alertMessages.CUSTOM_ERROR('No mobile entry.')
-	// 			)
-	// 		);
-	// 		setLoading(false);
-	// 		return;
-	// 	}
+		const emailRegEx =
+			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if (!formValues.email.match(emailRegEx)) {
+			setErrors({ ...errors, email: 'Please enter a valid email.' });
+			setLoading(false);
+			return;
+		} else if (formValues.password.length < 6) {
+			setErrors({
+				...errors,
+				password: 'Password must be at least 6 characters.',
+			});
+			setLoading(false);
+			return;
+		}
 
-	// 	const newUserData = {
-	// 		...formValues,
-	// 		email: formValues.email.trim(),
-	// 		bikyCode: formValues.bikyCode.trim(),
-	// 	};
-
-	// 	signupAPI(newUserData)
-	// 		.then((res: any) => {
-	// 			if (res?.data?.data) {
-	// 				setFormValues(emptyData);
-	// 				dispatch(
-	// 					CommonActions.createAlert(
-	// 						alertMessages.CUSTOM_SUCCESS(
-	// 							'Signup successful! Please login to continue.'
-	// 						)
-	// 					)
-	// 				);
-	// 				loginAPI(newUserData)
-	// 					.then((res: any) => {
-	// 						if (res?.data?.data?.token && res?.data?.data?.userID) {
-	// 							dispatch(AuthActions.setAuthData(res.data.data));
-	// 						}
-	// 					})
-	// 					.catch(() => {});
-	// 			} else {
-	// 				const err = res?.response;
-	// 				if (err && err.status === 409) {
-	// 					//Email is taken
-	// 					setErrors({ ...errors, email: 'This email is taken.' });
-	// 				} else if (err && err.status === 406) {
-	// 					//Email is taken
-	// 					setErrors({
-	// 						...errors,
-	// 						bikyCode: 'Please get a valid code from Biky team.',
-	// 					});
-	// 				} else {
-	// 					dispatch(CommonActions.createAlert(alertMessages.SOMETHING_WRONG));
-	// 				}
-
-	// 				dispatch(CommonActions.createAlert(alertMessages.SOMETHING_WRONG));
-	// 			}
-	// 		})
-	// 		.catch(() => {});
-	// 	setLoading(false);
-	// };
+		const newUserData = {
+			...formValues,
+			email: formValues.email.trim(),
+			password: CryptoJS.AES.encrypt(
+				formValues.password,
+				formValues.email.trim()
+			).toString(),
+			role: 'user',
+			reservations: [],
+		};
+		console.log(newUserData.password);
+		userDispatch(setUser(newUserData));
+		setLoading(false);
+	};
 
 	return (
 		<div>
-			<form className={classes.form}>
+			<form className={classes.form} onSubmit={handleSubmit}>
 				<Grid container spacing={isMobileBrowser ? 1 : 2}>
 					<Grid xs={12} item sm={6}>
 						<TextField

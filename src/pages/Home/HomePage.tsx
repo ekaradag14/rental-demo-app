@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import { Cover } from '../../components/Cover/Cover';
@@ -6,17 +6,22 @@ import { BikeCard } from '../../components/BikeCard/BikeCard';
 import AppBar from '../../components/AppBar/AppBar';
 import bikeImage from '../../assets/bikes/bike1.jpg';
 import { useStyles } from './HomePage.style';
-import { bikesData as bikes } from '../Search/SearchPage';
+import { BikeProps } from '../../common/types';
+// import { bikesData as bikes } from '../../data/bikes';
+import BikesContext from '../../contexts/bikes/context';
+
 export const HomePage = (props: any) => {
 	const classes = useStyles();
-
+	//@ts-ignore
+	const { bikes } = useContext(BikesContext);
 	return (
 		<Grid>
 			<Grid style={{ padding: 10 }}>
 				<Cover />
 				<Grid container spacing={4} marginTop={3}>
-					{bikes.map(
+					{(bikes as BikeProps[]).map(
 						({
+							id,
 							model,
 							color,
 							location,
@@ -25,7 +30,7 @@ export const HomePage = (props: any) => {
 							img,
 							description,
 						}) => (
-							<Grid key={model} item xs={2} sm={3} md={3}>
+							<Grid key={id} item xs={2} sm={3} md={3}>
 								<BikeCard
 									model={model}
 									color={color}
