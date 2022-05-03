@@ -1,39 +1,61 @@
 import { useState, useEffect } from 'react';
 
-import { Grid } from '@mui/material';
-import { Cover } from '../../components/Cover/Cover';
-import { BikeCard } from '../../components/BikeCard/BikeCard';
-import AppBar from '../../components/AppBar/AppBar';
-import bikeImage from '../../assets/bikes/bike1.jpg';
+import { Grid, Box } from '@mui/material';
 
-export const Main = (props: any) => {
-	// const classes = useStyles();
+import { useStyles } from './SearchPage.style';
+import { SearchDrawer } from '../../components/SearchDrawer/SearchDrawer';
+import { BikeCard } from '../../components/BikeCard/BikeCard';
+import bikeImage from '../../assets/bikes/bike1.jpg';
+export const SearchPage = (props: any) => {
+	const classes = useStyles();
+	const [bikes, setBikes] = useState(bikesData);
 
 	return (
-		<>
-			<Cover />
-			<Grid container spacing={4} marginTop={3}>
-				{bikes.map(
-					({ model, color, location, rating, available, img, description }) => (
-						<Grid key={model} item xs={2} sm={3} md={3}>
-							<BikeCard
-								model={model}
-								color={color}
-								location={location}
-								rating={rating}
-								available={available}
-								img={img}
-								description={description}
-							/>
-						</Grid>
-					)
-				)}
+		<Grid container>
+			<Grid item sm={2}>
+				<Box
+					sx={{
+						display: 'flex',
+						maxHeight: '90vh',
+						flexDirection: 'column',
+						overflowX: 'auto',
+					}}
+				>
+					<SearchDrawer />
+				</Box>
 			</Grid>
-		</>
+			<Grid item sm={10}>
+				<Grid container paddingX={3} spacing={4} marginTop={3}>
+					{bikes.map(
+						({
+							model,
+							color,
+							location,
+							rating,
+							available,
+							img,
+							description,
+						}) => (
+							<Grid key={model} item xs={2} sm={3} md={3}>
+								<BikeCard
+									model={model}
+									color={color}
+									location={location}
+									rating={rating}
+									available={available}
+									img={img}
+									description={description}
+								/>
+							</Grid>
+						)
+					)}
+				</Grid>
+			</Grid>
+		</Grid>
 	);
 };
 
-const bikes = [
+const bikesData = [
 	{
 		model: 'Gallardo',
 		color: 'red',

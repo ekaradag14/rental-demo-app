@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = [
 	{ label: 'Home', route: '/home' },
 	{ label: 'Create Bike', route: '/create-bike' },
+	{ label: 'Search', route: '/search' },
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -59,7 +60,10 @@ const AppBarComponent = () => {
 		}
 	};
 	return (
-		<AppBar position="static">
+		<AppBar
+			position="fixed"
+			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+		>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
 					<Typography
