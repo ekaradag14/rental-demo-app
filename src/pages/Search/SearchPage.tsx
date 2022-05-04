@@ -167,30 +167,11 @@ export const SearchPage = (props: any) => {
 					key={renderKey}
 				>
 					{bikeResults.length ? (
-						bikeResults.map(
-							({
-								id,
-								model,
-								color,
-								location,
-								rating,
-								available,
-								img,
-								description,
-							}: BikeProps) => (
-								<Grid key={id} item xs={12} sm={6} md={4} lg={3}>
-									<BikeCard
-										model={model}
-										color={color}
-										location={location}
-										rating={rating}
-										available={available}
-										img={img}
-										description={description}
-									/>
-								</Grid>
-							)
-						)
+						bikeResults.map((bike: BikeProps) => (
+							<Grid key={bike.id} item xs={12} sm={6} md={4} lg={3}>
+								<BikeCard {...bike} />
+							</Grid>
+						))
 					) : (
 						<p>No suitable bike</p>
 					)}

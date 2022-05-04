@@ -3,6 +3,17 @@ const userReducer = (state: any, action: any) => {
 		case 'SET_USER':
 			localStorage.setItem('userContextValue', JSON.stringify(action.user));
 			return action.user;
+		case 'REMOVE_RESERVATION':
+			state.reservations = state.reservations.filter(
+				(reservation) => reservation.reservationId !== action.reservationId
+			);
+			console.log('new user', state, action);
+			localStorage.setItem('userContextValue', JSON.stringify(state));
+			return state;
+		case 'ADD_RESERVATION':
+			state.reservations.push(action.reservation);
+			localStorage.setItem('userContextValue', JSON.stringify(state));
+			return state;
 		default:
 			return state;
 	}

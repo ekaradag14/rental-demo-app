@@ -1,4 +1,5 @@
 export interface BikeCardProps {
+	id: string;
 	model: string;
 	color: string;
 	location: string;
@@ -6,4 +7,7 @@ export interface BikeCardProps {
 	available: boolean;
 	img: string;
 	description: string;
+	reservations: any[];
+	reservationId?: string;
+	setRenderKey?: any;
 }

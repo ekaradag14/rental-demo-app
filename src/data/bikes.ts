@@ -13,7 +13,15 @@ export const bikesData: BikeProps[] = [
 		rating: 4.5,
 		available: true,
 		img: bikeImage,
-		reservations: [{ start: 1652276477000, end: 1652362879000 }],
+		reservations: [
+			{
+				bikeId: 'hhasbas',
+				end: 1651862246000,
+				reservationId: 'boz7qhhh6zk',
+				start: 1651689443000,
+				userId: 'asygduab',
+			},
+		],
 		description:
 			'A long-travel all-mountain bike built for racing enduro lines and having a rippin’ good time in the rough.',
 	},

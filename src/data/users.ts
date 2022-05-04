@@ -7,7 +7,15 @@ export const usersData: UserProps[] = [
 		email: 'eren.can.karadag@hotmail.com',
 		password: 'U2FsdGVkX1/+QKgXIEvV9PAeuCQ9QB6UlQIWPQTAU1s=',
 		role: 'manager',
-		reservations: [],
+		reservations: [
+			{
+				bikeId: 'hhasbas',
+				end: 1651862246000,
+				reservationId: 'boz7qhhh6zk',
+				start: 1651689443000,
+				userId: 'asygduab',
+			},
+		],
 	},
 	{
 		id: 'hsdvytvd',

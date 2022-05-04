@@ -7,8 +7,11 @@ export interface BikeProps {
 	available: boolean;
 	img: any;
 	reservations: {
-		start: number;
+		bikeId: string;
 		end: number;
+		reservationId: string;
+		start: number;
+		userId: string;
 	}[];
 	description: string;
 }
@@ -21,7 +24,10 @@ export interface UserProps {
 	password: string;
 	role: string;
 	reservations: {
-		start: number;
+		bikeId: string;
 		end: number;
+		reservationId: string;
+		start: number;
+		userId: string;
 	}[];
 }

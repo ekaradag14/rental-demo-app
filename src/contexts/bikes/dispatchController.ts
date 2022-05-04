@@ -14,3 +14,16 @@ export const updateBikeInContext = (bike: any) => ({
 	type: 'UPDATE_BIKE',
 	bike,
 });
+
+export const addBikeReservationInContext = (reservation: any) => ({
+	type: 'ADD_RESERVATION',
+	reservation,
+});
+export const removeBikeReservationInContext = (
+	reservationId: string,
+	bikeId: string
+) => ({
+	type: 'REMOVE_RESERVATION',
+	reservationId,
+	bikeId,
+});

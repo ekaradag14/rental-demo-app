@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useStyles } from './BikeCard.style';
 import { BikeCardProps } from './BikeCard.types';
 
@@ -13,8 +13,14 @@ import Checkbox from '@mui/material/Checkbox';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { GetColorName } from 'hex-color-to-color-name';
 import { RatingStars } from './RatingStars';
+import { RentModal } from './RentModal';
+import BikesContext from '../../contexts/bikes/context';
+import UserContext from '../../contexts/user/context';
+import { removeBikeReservationInContext } from '../../contexts/bikes/dispatchController';
+import { removeReservationInContext } from '../../contexts/user/dispatchController';
 
 export const BikeCard = ({
+	id,
 	model,
 	color,
 	location,
@@ -22,8 +28,24 @@ export const BikeCard = ({
 	available,
 	description,
 	img,
+	reservations,
+	reservationId,
+	setRenderKey,
 }: BikeCardProps) => {
 	const classes = useStyles();
+	//@ts-ignore
+	const { bikes, bikesDispatch } = useContext(BikesContext);
+	const { user, userDispatch } = useContext(UserContext);
+	const [isRentModalOpen, setIsRentModalOpen] = useState(false);
+	const handleSubmit = () => {
+		if (reservationId) {
+			bikesDispatch(removeBikeReservationInContext(reservationId, id));
+			userDispatch(removeReservationInContext(reservationId));
+			setRenderKey((pS) => pS + 1);
+		} else {
+			setIsRentModalOpen(true);
+		}
+	};
 	return (
 		<Card sx={{ maxWidth: 345 }}>
 			<CardMedia component="img" height="140" image={img} alt="green iguana" />
@@ -95,8 +117,12 @@ export const BikeCard = ({
 			</CardContent>
 			<CardActions>
 				<Grid style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-					<Button disabled={!available} size="small">
-						{available ? 'Rent' : 'Not Available'}
+					<Button disabled={!available} onClick={handleSubmit} size="small">
+						{available
+							? reservationId
+								? 'Cancel Reservation'
+								: 'Rent'
+							: 'Not Available'}
 					</Button>
 					<Checkbox
 						disabled
@@ -105,6 +131,21 @@ export const BikeCard = ({
 					/>
 				</Grid>
 			</CardActions>
+			<RentModal
+				reservations={reservations}
+				bike={{
+					id,
+					model,
+					color,
+					location,
+					rating,
+					available,
+					description,
+					img,
+				}}
+				open={isRentModalOpen}
+				onClose={() => setIsRentModalOpen(false)}
+			/>
 		</Card>
 	);
 };
