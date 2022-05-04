@@ -127,7 +127,7 @@ export const SearchPage = (props: any) => {
 	}, [startDate, endDate]);
 
 	return (
-		<Grid container>
+		<Grid container spacing={2}>
 			<Grid item sm={2}>
 				<Box
 					sx={{
@@ -155,7 +155,17 @@ export const SearchPage = (props: any) => {
 				</Box>
 			</Grid>
 			<Grid item sm={10}>
-				<Grid container paddingX={3} spacing={4} marginTop={3} key={renderKey}>
+				<Grid
+					container
+					sm={12}
+					sx={{
+						paddingLeft: { lg: 2, md: 10, sm: 15, xs: 35 },
+						paddingRight: { sm: 0, xs: 5 },
+						marginTop: 0.1,
+					}}
+					spacing={4}
+					key={renderKey}
+				>
 					{bikeResults.length ? (
 						bikeResults.map(
 							({
@@ -168,7 +178,7 @@ export const SearchPage = (props: any) => {
 								img,
 								description,
 							}: BikeProps) => (
-								<Grid key={id} item xs={2} sm={3} md={3}>
+								<Grid key={id} item xs={12} sm={6} md={4} lg={3}>
 									<BikeCard
 										model={model}
 										color={color}

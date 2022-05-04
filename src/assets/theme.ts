@@ -25,7 +25,15 @@ export interface BikyTheme extends Theme {
 
 const mainTheme = createTheme({
 	mixins: {},
-	components: {},
+	components: {
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					padding: '6px 8px !important',
+				},
+			},
+		},
+	},
 	palette: {},
 	transitions: {},
 	typography: {},

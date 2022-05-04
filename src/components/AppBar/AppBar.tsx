@@ -72,10 +72,10 @@ const AppBarComponent = () => {
 	return (
 		<AppBar
 			position="fixed"
-			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: 68.5 }}
 		>
 			<Container maxWidth="xl">
-				<Toolbar disableGutters>
+				<Toolbar disableGutters style={{ height: '68.5px' }}>
 					<Typography
 						variant="h6"
 						noWrap
@@ -97,6 +97,7 @@ const AppBarComponent = () => {
 							aria-haspopup="true"
 							onClick={handleOpenNavMenu}
 							color="inherit"
+							style={{ padding: '6px 8px' }}
 						>
 							<MenuIcon />
 						</IconButton>
@@ -115,11 +116,19 @@ const AppBarComponent = () => {
 							open={Boolean(anchorElNav)}
 							onClose={handleCloseNavMenu}
 							sx={{
-								display: { xs: 'block', md: 'none' },
+								display: { xs: 'flex', md: 'none' },
+								flexDirection: { xs: 'column' },
 							}}
 						>
 							{pages.map((page) => (
-								<MenuItem key={page.label} onClick={handleCloseNavMenu}>
+								<MenuItem
+									style={{ padding: 5 }}
+									key={page.label}
+									onClick={() => {
+										handleCloseNavMenu();
+										routePush(page.route);
+									}}
+								>
 									<Typography textAlign="center">{page.label}</Typography>
 								</MenuItem>
 							))}
@@ -131,7 +140,11 @@ const AppBarComponent = () => {
 						component="div"
 						sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
 					>
-						LOGO
+						<img
+							className={classes.avatar}
+							src="/bikyMini.png"
+							alt="Biky Logo"
+						/>
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
 						{pages.map((page) => (
@@ -142,13 +155,14 @@ const AppBarComponent = () => {
 									routePush(page.route);
 								}}
 								sx={{ my: 2, color: 'white', display: 'block' }}
+								style={{ padding: '6px 8px', borderRadius: 10 }}
 							>
 								{page.label}
 							</Button>
 						))}
 					</Box>
 
-					<Box sx={{ flexGrow: 0 }}>
+					<Box sx={{ flexGrow: 0, display: 'flex' }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 								<Avatar alt="Remy Sharp">

@@ -30,7 +30,7 @@ export const HomePage = (props: any) => {
 							img,
 							description,
 						}) => (
-							<Grid key={id} item xs={2} sm={3} md={3}>
+							<Grid key={id} item xs={12} sm={6} md={4} lg={3}>
 								<BikeCard
 									model={model}
 									color={color}

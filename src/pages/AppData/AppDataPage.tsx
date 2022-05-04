@@ -12,6 +12,7 @@ import UserContext from '../../contexts/user/context';
 import { deleteBikesFromContext } from '../../contexts/bikes/dispatchController';
 import { UserProps } from '../../common/types';
 import { deleteUsersFromContext } from '../../contexts/allUsers/dispatchController';
+
 export const AppDataPage = (props: any) => {
 	const classes = useStyles();
 	//@ts-ignore
@@ -78,7 +79,7 @@ export const AppDataPage = (props: any) => {
 				sx={{ padding: 2, paddingX: 4, overflow: 'auto' }}
 				spacing={6}
 			>
-				<Grid sm={6} item>
+				<Grid md={6} sm={12} item xs={12}>
 					<DataTable
 						key={tableKey}
 						rowData={bikes.map((bike) => ({
@@ -100,7 +101,7 @@ export const AppDataPage = (props: any) => {
 						addAction={addBikeAction}
 					/>
 				</Grid>
-				<Grid sm={6} item>
+				<Grid md={6} sm={12} item xs={12}>
 					<DataTable
 						key={tableKey}
 						rowData={allUsers
@@ -132,7 +133,7 @@ export const AppDataPage = (props: any) => {
 						addAction={() => addUserAction(false)}
 					/>
 				</Grid>
-				<Grid sm={6} item>
+				<Grid md={6} sm={12} item xs={12}>
 					<DataTable
 						key={tableKey}
 						rowData={allUsers
