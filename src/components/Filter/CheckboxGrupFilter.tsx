@@ -38,7 +38,7 @@ export const CheckboxGroupFilter = ({
 			<Divider />
 			<FormGroup
 				sx={{
-					maxHeight: 150,
+					maxHeight: 120,
 					paddingLeft: 2.5,
 					display: 'flex',
 					flexDirection: 'column',

@@ -2,9 +2,9 @@ export const addBikeToContext = (bike: any) => ({
 	type: 'ADD_BIKE',
 	bike,
 });
-export const deleteBikeFromContext = (id: string) => ({
-	type: 'REMOVE_BIKE',
-	id,
+export const deleteBikesFromContext = (ids: string[]) => ({
+	type: 'REMOVE_BIKES',
+	ids,
 });
 export const setBikesToContext = (bikes: any) => ({
 	type: 'SET_BIKES',

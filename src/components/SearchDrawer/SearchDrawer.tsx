@@ -7,6 +7,7 @@ import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import { CheckboxGroupFilter } from '../Filter/CheckboxGrupFilter';
 import { DatePickerFilter } from '../Filter/DatePickerFilter';
+import { RatingFilter } from '../Filter/RatingFilter';
 const drawerWidth = 240;
 
 export const SearchDrawer = ({
@@ -20,6 +21,9 @@ export const SearchDrawer = ({
 	setLocationData,
 	colorData,
 	setColorData,
+	ratingData,
+	setRatingData,
+	onChangeCommitted,
 }: {
 	startDate: Date | null;
 	setStartDate: any;
@@ -31,6 +35,9 @@ export const SearchDrawer = ({
 	setLocationData: any;
 	colorData: { label: string; checked: boolean }[];
 	setColorData: any;
+	ratingData: any;
+	setRatingData: any;
+	onChangeCommitted: any;
 }) => {
 	const classes = useStyles();
 
@@ -50,6 +57,11 @@ export const SearchDrawer = ({
 				setStartDate={setStartDate}
 				endDate={endDate}
 				setEndDate={setEndDate}
+			/>
+			<RatingFilter
+				onChangeCommitted={onChangeCommitted}
+				ratingData={ratingData}
+				setRatingData={setRatingData}
 			/>
 			<CheckboxGroupFilter
 				data={modelData}

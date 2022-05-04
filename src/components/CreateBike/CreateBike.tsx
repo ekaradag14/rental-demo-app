@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import {
 	Button,
@@ -6,7 +6,8 @@ import {
 	Grid,
 	TextField,
 	RadioGroup,
-	Select,
+	Typography,
+	FormControlLabel,
 } from '@mui/material';
 
 import overrideTheme from './uploadImageTheme';
@@ -19,23 +20,40 @@ import {
 	PreviewIconProps,
 } from 'material-ui-dropzone';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import BikesContext from '../../contexts/bikes/context';
+import {
+	addBikeToContext,
+	updateBikeInContext,
+} from '../../contexts/bikes/dispatchController';
+
+export const generateRandomID = () => Math.random().toString(36).slice(2);
 
 const initialFValues = {
 	model: '',
 	color: '',
 	location: '',
 	description: '',
+	available: false,
 };
 let maxFileSize = 10000000;
 let maxFileSizeInMB = maxFileSize / 1000000;
 const hexRegex = new RegExp('^#(?:[0-9a-fA-F]{3}){1,2}$');
-export const CreateBikePage = (props: any) => {
+export const CreateBike = ({
+	close,
+	initialBike,
+}: {
+	close: any;
+	initialBike?: any;
+}) => {
 	// const classes = useStyles();
 	const [imageToBeUploaded, setImageToBeUploaded] = useState<File[]>([]);
-	const [isLoading, setIsLoading] = useState(false);
 	const [dropzoneKey, setDropzoneKey] = useState(0);
+	const [generalError, setGeneralError] = useState('');
+
 	//@ts-ignore
 	const theme = createTheme(overrideTheme);
+	//@ts-ignore
+	const { bikes, bikesDispatch } = useContext(BikesContext);
 	const validate = (fieldValues = values) => {
 		let temp = { ...errors };
 		if ('model' in fieldValues)
@@ -64,8 +82,54 @@ export const CreateBikePage = (props: any) => {
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
+
 		if (validate()) {
-			resetForm();
+			if (!imageToBeUploaded.length) {
+				setGeneralError('Please provide an image');
+				return;
+			} else {
+				setGeneralError('');
+			}
+			if (initialBike) {
+				//@ts-ignore
+				if (imageToBeUploaded[0]?.path) {
+					var fileReader = new FileReader();
+					fileReader.onload = function (fileLoadedEvent) {
+						var srcData = fileLoadedEvent.target.result;
+						bikesDispatch(
+							updateBikeInContext({
+								...values,
+								img: srcData,
+							})
+						);
+
+						close();
+					};
+					fileReader.readAsDataURL(imageToBeUploaded[0]);
+				} else {
+					bikesDispatch(
+						updateBikeInContext({
+							...values,
+						})
+					);
+					close();
+				}
+			} else {
+				var fileReader = new FileReader();
+				fileReader.onload = function (fileLoadedEvent) {
+					var srcData = fileLoadedEvent.target.result;
+					bikesDispatch(
+						addBikeToContext({
+							...values,
+							id: generateRandomID(),
+							reservations: [],
+							img: srcData,
+						})
+					);
+					close();
+				};
+				fileReader.readAsDataURL(imageToBeUploaded[0]);
+			}
 		}
 	};
 	const getFileRemovedMessage = (file: string) => {
@@ -78,14 +142,14 @@ export const CreateBikePage = (props: any) => {
 		return `Only JPEG or PNG allowed under ${maxFileSizeInMB} Mb.`;
 	};
 	const previewIconFunction = (file: FileObject, classes: PreviewIconProps) => {
-		if (file.file.type.split('/')[0] === 'image')
+		if (file.file.type.split('/')[0] === 'image') {
 			return (
 				<img
 					// @ts-ignore
 					style={{
-						maxWidth: 400,
+						maxWidth: 300,
 						borderRadius: 10,
-						maxHeight: 400,
+						maxHeight: 300,
 						marginTop: -30,
 					}}
 					role="presentation"
@@ -94,7 +158,16 @@ export const CreateBikePage = (props: any) => {
 					alt="preview"
 				/>
 			);
+		}
 	};
+
+	useEffect(() => {
+		if (initialBike) {
+			setValues(initialBike);
+		}
+		setDropzoneKey((pS) => pS + 1);
+	}, []);
+
 	return (
 		<Grid>
 			<Form onSubmit={handleSubmit}>
@@ -122,6 +195,22 @@ export const CreateBikePage = (props: any) => {
 								/>
 							</Grid>
 						))}
+						<Grid item sm={12}>
+							<FormControlLabel
+								label="Available"
+								control={
+									<Checkbox
+										name="available"
+										checked={JSON.parse(values.available)}
+										onChange={(e) => {
+											//@ts-ignore
+											e.target.value = e.target.checked;
+											handleInputChange(e);
+										}}
+									/>
+								}
+							/>
+						</Grid>
 					</Grid>
 					<Grid
 						container
@@ -143,6 +232,7 @@ export const CreateBikePage = (props: any) => {
 								acceptedFiles={['image/png', 'image/jpg', 'image/jpeg']}
 								onChange={setImageToBeUploaded}
 								filesLimit={1}
+								initialFiles={initialBike ? [initialBike.img] : null}
 								maxFileSize={maxFileSize}
 								showPreviewsInDropzone={true}
 								clearOnUnmount={true}
@@ -160,6 +250,9 @@ export const CreateBikePage = (props: any) => {
 						</MuiThemeProvider>
 					</Grid>
 				</Grid>
+				<Typography style={{ color: 'red', margin: 10, marginLeft: 22 }}>
+					{generalError}
+				</Typography>
 				<Grid
 					container
 					item
@@ -169,7 +262,11 @@ export const CreateBikePage = (props: any) => {
 					<Grid
 						item
 						sm={6}
-						style={{ display: 'flex', alignItems: 'center', margin: 'auto' }}
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							margin: 'auto',
+						}}
 					>
 						<Button
 							style={{ width: '50%', margin: 'auto' }}

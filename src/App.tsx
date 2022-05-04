@@ -13,7 +13,6 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import { WelcomePage } from './pages/Welcome/WelcomePage';
 import { HomePage } from './pages/Home/HomePage';
-import { CreateBikePage } from './pages/CreateBike/CreateBikePage';
 import { SearchPage } from './pages/Search/SearchPage';
 import { AppDataPage } from './pages/AppData/AppDataPage';
 
@@ -29,6 +28,8 @@ import allUserReducer from './contexts/allUsers/reducer';
 import { usersData } from './data/users';
 
 import './assets/style.css';
+import { setUser } from './contexts/user/dispatchController';
+import { setBikesToContext } from './contexts/bikes/dispatchController';
 // import ViewBlogDialogue from '../../common/components/ViewBlogDialogue/ViewBlogDialogue';
 // import { useAppDispatch, useAppSelector } from '../../common/redux/hooks';
 // import { CommonActions } from '../../common/contexts/CommonSlice';
@@ -85,7 +86,7 @@ const App = () => {
 
 	const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);
 	const [user, userDispatch] = useReducer(userReducer, UserContext);
-	const [allUsers, allUserDispatch] = useReducer(allUserReducer, usersData);
+	const [allUsers, allUsersDispatch] = useReducer(allUserReducer, usersData);
 	const isAuth = !!user?.email;
 	const isManager = user?.role === 'manager';
 
@@ -101,11 +102,22 @@ const App = () => {
 		],
 	};
 
+	useEffect(() => {
+		let currentUser = JSON.parse(localStorage.getItem('userContextValue'));
+		if (currentUser) {
+			userDispatch(setUser(currentUser));
+		}
+		let bikes = JSON.parse(localStorage.getItem('bikeContextValues'));
+		if (bikes) {
+			bikesDispatch(setBikesToContext(bikes));
+		}
+	}, []);
+
 	return (
 		<>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
 				<UserContext.Provider value={{ user, userDispatch }}>
-					<AllUserContext.Provider value={{ allUsers, allUserDispatch }}>
+					<AllUserContext.Provider value={{ allUsers, allUsersDispatch }}>
 						<Router>
 							{isAuth ? (
 								<>

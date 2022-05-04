@@ -19,12 +19,13 @@ const bikeReducer = (state: any, action: any) => {
 			localStorage.setItem('bikeContextValues', JSON.stringify(state));
 			return state;
 
-		case 'REMOVE_BIKE':
-			state = state.filter((bike: any) => bike.id !== action.id);
+		case 'REMOVE_BIKES':
+			state = state.filter((bike: any) => !action.ids.includes(bike.id));
 			localStorage.setItem('bikeContextValues', JSON.stringify(state));
 			return state;
 
 		case 'SET_BIKES':
+			localStorage.setItem('bikeContextValues', JSON.stringify(state));
 			return action.bikes;
 		default:
 			return state;

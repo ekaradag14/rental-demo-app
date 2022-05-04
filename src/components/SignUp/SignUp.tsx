@@ -11,6 +11,8 @@ import { useStyles } from './SignUp.style';
 import UserContext from '../../contexts/user/context';
 import { setUser } from '../../contexts/user/dispatchController';
 var CryptoJS = require('crypto-js');
+export const emailRegEx =
+	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const SignUp = () => {
 	const classes = useStyles();
@@ -32,8 +34,6 @@ export const SignUp = () => {
 		event.preventDefault();
 		setLoading(true);
 
-		const emailRegEx =
-			/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (!formValues.email.match(emailRegEx)) {
 			setErrors({ ...errors, email: 'Please enter a valid email.' });
 			setLoading(false);

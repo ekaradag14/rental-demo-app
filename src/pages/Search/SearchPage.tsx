@@ -15,6 +15,7 @@ export const SearchPage = (props: any) => {
 	const [bikeResults, setBikeResults] = useState(bikes);
 	const [renderKey, setRenderKey] = useState(0);
 	const [modelData, setModelData] = useState<any[]>([]);
+	const [ratingData, setRatingData] = useState<number[]>([1, 5]);
 	const [colorData, setColorData] = useState<any[]>([]);
 	const [locationData, setLocationData] = useState<any[]>([]);
 	const [startDate, setStartDate] = useState<Date | null>(null);
@@ -38,6 +39,12 @@ export const SearchPage = (props: any) => {
 				selectedModels.includes(el.model)
 			);
 		}
+
+		searchResults = searchResults.filter(
+			(el) =>
+				el.rating > Math.min(...ratingData) &&
+				el.rating < Math.max(...ratingData)
+		);
 
 		let selectedLocations: string[] = locationData
 			.filter((el) => el.checked)
@@ -131,7 +138,10 @@ export const SearchPage = (props: any) => {
 					}}
 				>
 					<SearchDrawer
+						onChangeCommitted={handleFilterData}
 						startDate={startDate}
+						ratingData={ratingData}
+						setRatingData={setRatingData}
 						setStartDate={setStartDate}
 						endDate={endDate}
 						setEndDate={setEndDate}
