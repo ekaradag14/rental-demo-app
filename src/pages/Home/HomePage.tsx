@@ -13,7 +13,6 @@ import UserContext from '../../contexts/user/context';
 export const HomePage = (props: any) => {
 	const classes = useStyles();
 	const [renderKey, setRenderKey] = useState(0);
-	//@ts-ignore
 	const { bikes } = useContext(BikesContext);
 	const { user } = useContext(UserContext);
 	return (
@@ -43,7 +42,7 @@ export const HomePage = (props: any) => {
 										reservationId={reservation.reservationId}
 										setRenderKey={setRenderKey}
 									/>
-									<Typography variant="h4" className={classes.dateRangeText}>
+									<Typography variant="h5" className={classes.dateRangeText}>
 										{new Date(reservation.start).toLocaleDateString()}-
 										{new Date(reservation.end).toLocaleDateString()}
 									</Typography>

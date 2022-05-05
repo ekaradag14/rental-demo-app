@@ -18,6 +18,7 @@ import BikesContext from '../../contexts/bikes/context';
 import UserContext from '../../contexts/user/context';
 import { removeBikeReservationInContext } from '../../contexts/bikes/dispatchController';
 import { removeReservationInContext } from '../../contexts/user/dispatchController';
+import { shortenText } from '../../common/helper/utils';
 
 export const BikeCard = ({
 	id,
@@ -33,7 +34,6 @@ export const BikeCard = ({
 	setRenderKey,
 }: BikeCardProps) => {
 	const classes = useStyles();
-	//@ts-ignore
 	const { bikesDispatch } = useContext(BikesContext);
 	const { userDispatch } = useContext(UserContext);
 	const [isRentModalOpen, setIsRentModalOpen] = useState(false);
@@ -47,22 +47,22 @@ export const BikeCard = ({
 		}
 	};
 	return (
-		<Card sx={{ maxWidth: 345 }}>
+		<Card sx={{ maxWidth: 345, height: 330 }}>
 			<CardMedia component="img" height="140" image={img} alt="bike image" />
 			<CardContent style={{ paddingBottom: 0 }}>
-				<Grid className={classes.modelTextContainer}>
+				<Grid key={rating} className={classes.modelTextContainer}>
 					<Typography
 						style={{ width: '100%' }}
 						variant="subtitle1"
 						component="div"
 					>
-						{model}
+						{shortenText(model, 15)}
 					</Typography>
-					<RatingStars rating={rating} />
+					<RatingStars id={id} rating={rating} />
 				</Grid>
 
 				<Typography variant="body2" color="text.secondary">
-					{description}
+					{shortenText(description, 100)}
 				</Typography>
 				<Grid className={classes.contentFooterContainer}>
 					<Grid className={classes.locationContainer}>
@@ -72,7 +72,7 @@ export const BikeCard = ({
 							color="text.secondary"
 							style={{ paddingLeft: 4 }}
 						>
-							{location}
+							{shortenText(location, 12)}
 						</Typography>
 					</Grid>
 					<Grid className={classes.colorContainer}>

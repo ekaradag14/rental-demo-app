@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import { CheckboxGroupFilter } from '../Filter/CheckboxGrupFilter';
 import { DatePickerFilter } from '../Filter/DatePickerFilter';
 import { RatingFilter } from '../Filter/RatingFilter';
+import { Button } from '@mui/material';
 const drawerWidth = 240;
 
 export const SearchDrawer = ({
@@ -41,45 +42,61 @@ export const SearchDrawer = ({
 }) => {
 	const classes = useStyles();
 
+	const resetFilter = () => {
+		setStartDate(null);
+		setEndDate(null);
+		setModelData([]);
+		setRatingData([1, 5]);
+		setColorData([]);
+		setLocationData([]);
+		setModelData([]);
+	};
 	return (
 		<Drawer
 			sx={{
 				width: drawerWidth,
 				flexShrink: 0,
 				[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+				overflowY: 'auto',
 			}}
 			variant="permanent"
 			anchor="left"
 		>
-			<Grid sx={{ paddingTop: 10 }} />
-			<DatePickerFilter
-				startDate={startDate}
-				setStartDate={setStartDate}
-				endDate={endDate}
-				setEndDate={setEndDate}
-			/>
-			<RatingFilter
-				onChangeCommitted={onChangeCommitted}
-				ratingData={ratingData}
-				setRatingData={setRatingData}
-			/>
-			<CheckboxGroupFilter
-				data={modelData}
-				setData={setModelData}
-				title={'Model'}
-			/>
-			<CheckboxGroupFilter
-				data={locationData}
-				setData={setLocationData}
-				title={'Location'}
-			/>
-			<CheckboxGroupFilter
-				isColor
-				data={colorData}
-				setData={setColorData}
-				title={'Color'}
-			/>
-			<Divider />
+			<Grid
+				container
+				spacing={2}
+				sx={{ height: '100%', paddingY: 10, paddingX: 1, marginBottom: 10 }}
+			>
+				<DatePickerFilter
+					startDate={startDate}
+					setStartDate={setStartDate}
+					endDate={endDate}
+					setEndDate={setEndDate}
+				/>
+				<RatingFilter
+					onChangeCommitted={onChangeCommitted}
+					ratingData={ratingData}
+					setRatingData={setRatingData}
+				/>
+				<CheckboxGroupFilter
+					data={modelData}
+					setData={setModelData}
+					title={'Model'}
+				/>
+				<CheckboxGroupFilter
+					data={locationData}
+					setData={setLocationData}
+					title={'Location'}
+				/>
+				<CheckboxGroupFilter
+					isColor
+					data={colorData}
+					setData={setColorData}
+					title={'Color'}
+				/>
+
+				<Divider sx={{ paddingBottom: 3 }} />
+			</Grid>
 		</Drawer>
 	);
 };

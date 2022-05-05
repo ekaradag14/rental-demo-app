@@ -10,36 +10,42 @@ export const DatePickerFilter = ({
 	setStartDate,
 	endDate,
 	setEndDate,
+	width = 12,
+	disablePast = true,
 }: {
 	startDate: Date | null;
 	setStartDate: any;
 	endDate: Date | null;
 	setEndDate: any;
+	width?: any;
+	disablePast?: boolean;
 }) => {
 	return (
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<Grid style={{ marginBottom: 20, paddingLeft: 5 }}>
+			<Grid sm={width} item>
 				<DatePicker
-					label="Start Date"
+					label="Reservation Start Date"
 					value={startDate}
-					disablePast
+					disablePast={disablePast}
 					onChange={(newValue) => {
 						setStartDate(newValue);
 					}}
+					clearable
 					maxDate={endDate}
-					renderInput={(params) => <TextField {...params} />}
+					renderInput={(params) => <TextField fullWidth {...params} />}
 				/>
 			</Grid>
-			<Grid style={{ paddingLeft: 5 }}>
+			<Grid item sm={width}>
 				<DatePicker
 					minDate={startDate}
-					disablePast
-					label="End Date"
+					disablePast={disablePast}
+					label="Reservation End Date"
 					value={endDate}
+					clearable
 					onChange={(newValue) => {
 						setEndDate(newValue);
 					}}
-					renderInput={(params) => <TextField {...params} />}
+					renderInput={(params) => <TextField fullWidth {...params} />}
 				/>
 			</Grid>
 		</LocalizationProvider>

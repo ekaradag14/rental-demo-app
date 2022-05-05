@@ -3,11 +3,8 @@ import { BikyTheme } from '../../assets/theme';
 
 export const useStyles = makeStyles((theme: BikyTheme) => ({
 	noReservationText: {
-		marginTop: 60,
-		marginLeft: 150,
+		margin: 10,
 		color: 'gray',
 		fontStyle: 'italic',
 	},
-	dateRangeText: { color: 'gray', marginLeft: 40 },
-	upcomingBookingsText: { color: 'gray', marginTop: 10 },
 }));

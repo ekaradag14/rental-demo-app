@@ -15,6 +15,7 @@ import { WelcomePage } from './pages/Welcome/WelcomePage';
 import { HomePage } from './pages/Home/HomePage';
 import { SearchPage } from './pages/Search/SearchPage';
 import { AppDataPage } from './pages/AppData/AppDataPage';
+import { ReservationsPage } from './pages/Reservations/ReservationsPage';
 
 import BikesContext from './contexts/bikes/context';
 import bikeReducer from './contexts/bikes/reducer';
@@ -30,6 +31,8 @@ import { usersData } from './data/users';
 import './assets/style.css';
 import { setUser } from './contexts/user/dispatchController';
 import { setBikesToContext } from './contexts/bikes/dispatchController';
+import { setAllUser } from './contexts/allUsers/dispatchController';
+
 // import ViewBlogDialogue from '../../common/components/ViewBlogDialogue/ViewBlogDialogue';
 // import { useAppDispatch, useAppSelector } from '../../common/redux/hooks';
 // import { CommonActions } from '../../common/contexts/CommonSlice';
@@ -62,26 +65,13 @@ const managerAuthRoutes = [
 	},
 	{
 		exact: true,
-		path: '/home',
-		component: HomePage,
+		path: '/reservations',
+		component: ReservationsPage,
 	},
-
-	{
-		exact: true,
-		path: '/search',
-		component: SearchPage,
-	},
-
-	{
-		exact: false,
-		path: '*',
-		component: () => <Redirect to="/home" />,
-	},
+	...defaultAuthRoutes,
 ];
 
 const App = () => {
-	// const dispatch = useAppDispatch();
-	// const { isAuth } = useAppSelector((state) => state.auth);
 	// const { dialogs, alert } = useAppSelector((state) => state.common);
 
 	const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);
@@ -103,13 +93,26 @@ const App = () => {
 	};
 
 	useEffect(() => {
+		// Set user
 		let currentUser = JSON.parse(localStorage.getItem('userContextValue'));
 		if (currentUser) {
 			userDispatch(setUser(currentUser));
 		}
+
+		// Set bikes data
 		let bikes = JSON.parse(localStorage.getItem('bikeContextValues'));
 		if (bikes) {
 			bikesDispatch(setBikesToContext(bikes));
+		} else {
+			bikesDispatch(setBikesToContext(bikesData));
+		}
+		let allUsers = JSON.parse(localStorage.getItem('allUsersContextValues'));
+
+		// Set application users for managers only
+		if (isManager && allUsers) {
+			allUsersDispatch(setAllUser(allUsers));
+		} else if (isManager) {
+			allUsersDispatch(setAllUser(usersData));
 		}
 	}, []);
 

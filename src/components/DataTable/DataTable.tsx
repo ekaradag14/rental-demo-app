@@ -25,8 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import { Grid } from '@material-ui/core';
+import { shortenText } from '../../common/helper/utils';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -86,7 +85,7 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
-				<TableCell padding="checkbox">
+				<TableCell padding="checkbox" style={{ padding: '6px 8px' }}>
 					<Checkbox
 						indeterminate={numSelected > 0 && numSelected < rowCount}
 						checked={rowCount > 0 && numSelected === rowCount}
@@ -171,6 +170,7 @@ const EnhancedTableToolbar = ({
 					variant="h6"
 					id="tableTitle"
 					component="div"
+					color="primary"
 				>
 					{tableTitle}
 				</Typography>
@@ -344,7 +344,10 @@ export default function EnhancedTable({
 											key={row.id}
 											selected={isItemSelected}
 										>
-											<TableCell padding="checkbox">
+											<TableCell
+												padding="checkbox"
+												style={{ padding: '6px 8px' }}
+											>
 												<Checkbox
 													checked={isItemSelected}
 													inputProps={{ 'aria-labelledby': labelId }}
@@ -356,9 +359,7 @@ export default function EnhancedTable({
 												scope="row"
 												padding="none"
 											>
-												{row.title.length < 40
-													? row.title
-													: row.title.substring(0, 37) + '...'}
+												{shortenText(row.title, 70)}
 											</TableCell>
 											<TableCell align="right">
 												<Tooltip title="Edit Section" placement="bottom">

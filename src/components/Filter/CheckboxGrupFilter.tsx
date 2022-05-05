@@ -6,6 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import { GetColorName } from 'hex-color-to-color-name';
+import { shortenText } from '../../common/helper/utils';
 export type CheckboxData = {
 	label: string;
 	checked: boolean;
@@ -33,12 +34,14 @@ export const CheckboxGroupFilter = ({
 	};
 
 	return (
-		<>
-			<Typography style={{ padding: 15 }}>{title}</Typography>
+		<Grid>
+			<Typography color="primary" style={{ padding: 15 }}>
+				{title}
+			</Typography>
 			<Divider />
 			<FormGroup
 				sx={{
-					maxHeight: 120,
+					maxHeight: 200,
 					paddingLeft: 2.5,
 					display: 'flex',
 					flexDirection: 'column',
@@ -60,7 +63,7 @@ export const CheckboxGroupFilter = ({
 							<FormControlLabel
 								control={
 									<Checkbox
-										name={el.label}
+										name={shortenText(el.label, 15)}
 										checked={el.checked}
 										onChange={handleChange}
 									/>
@@ -84,6 +87,6 @@ export const CheckboxGroupFilter = ({
 				</Grid>
 			</FormGroup>
 			<Divider />
-		</>
+		</Grid>
 	);
 };

@@ -84,7 +84,7 @@ export const AppDataPage = (props: any) => {
 						key={tableKey}
 						rowData={bikes.map((bike) => ({
 							...bike,
-							title: `R: ${bike.rating}, ${bike.model}, ${bike.location}, id: ${bike.id}`,
+							title: `R: ${bike.rating}, ${bike.model}, ${bike.location}, id: ${bike.id})`,
 						}))}
 						tableTitle="Bikes"
 						editAction={(bike) => {

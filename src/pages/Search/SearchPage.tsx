@@ -8,9 +8,9 @@ import { BikeCard } from '../../components/BikeCard/BikeCard';
 import BikesContext from '../../contexts/bikes/context';
 import { BikeProps } from '../../common/types';
 import { useSearch } from '../../common/hooks/useSearch';
+import { dateRangeOverlaps } from '../../common/helper/utils';
 export const SearchPage = (props: any) => {
 	const classes = useStyles();
-	//@ts-ignore
 	const { bikes, bikesDispatch } = useContext(BikesContext);
 	// const [bikeResults, setBikeResults] = useState(bikes);
 	const [renderKey, setRenderKey] = useState(0);
@@ -130,6 +130,7 @@ export const SearchPage = (props: any) => {
 					sx={{
 						paddingLeft: { lg: 2, md: 10, sm: 15, xs: 35 },
 						paddingRight: { sm: 0, xs: 5 },
+						paddingBottom: 4,
 						marginTop: 0.1,
 					}}
 					spacing={4}
@@ -149,16 +150,3 @@ export const SearchPage = (props: any) => {
 		</Grid>
 	);
 };
-
-function dateRangeOverlaps(
-	a_start: number,
-	a_end: number,
-	b_start: number,
-	b_end: number
-) {
-	let hasOverlap = false;
-	if (a_start < b_start && b_start < a_end) hasOverlap = true; // b starts in a
-	if (a_start < b_end && b_end < a_end) hasOverlap = true; // b ends in a
-	if (b_start < a_start && a_end < b_end) hasOverlap = true; // a in b
-	return hasOverlap;
-}

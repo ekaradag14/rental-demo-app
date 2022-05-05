@@ -45,29 +45,7 @@ export function useSearch(
 				selectedColors.includes(el.color)
 			);
 		}
-		// if (startDate && endDate) {
-		// 	console.log('dates are', startDate, endDate, searchResults);
-		// 	searchResults.filter((el: BikeProps) => {
-		// 		let isBookedForThatTime = false;
-		// 		el.reservations.forEach(
-		// 			(reservation: { start: number; end: number }) => {
-		// 				if (
-		// 					dateRangeOverlaps(
-		// 						reservation.start,
-		// 						reservation.end,
-		// 						startDate.getTime(),
-		// 						endDate.getTime()
-		// 					)
-		//                 ) {
-		//                     console.log('hey')
-		// 					isBookedForThatTime = true;
-		// 				}
-		// 			}
-		// 		);
-		// 		return !isBookedForThatTime;
-		// 	});
-		// 	console.log('dates are2', searchResults);
-		// }
+
 		return searchResults;
 	};
 

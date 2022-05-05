@@ -28,7 +28,6 @@ export const RentModal = (props: RentModal) => {
 	const [endDate, setEndDate] = useState(null);
 	const [minDate, setMinDate] = useState(null);
 
-	//@ts-ignore
 	const { bikes, bikesDispatch } = useContext(BikesContext);
 	const { user, userDispatch } = useContext(UserContext);
 	const handleClose = () => {
@@ -62,7 +61,7 @@ export const RentModal = (props: RentModal) => {
 			bikeId: bike.id,
 			reservationId: generateRandomID(),
 		};
-		bikesDispatch(addBikeReservationInContext(reservation));
+		bikesDispatch(addBikeReservationInContext(reservation, bike.id));
 		userDispatch(addReservationToUser(reservation));
 		handleClose();
 	};
@@ -112,7 +111,11 @@ export const RentModal = (props: RentModal) => {
 				</Grid>
 				<Grid item md={6}>
 					<Grid style={{ display: 'block', paddingBottom: 10 }}>
-						<RatingStars marginLeft="revert" rating={bike.rating} />
+						<RatingStars
+							id={bike.id}
+							marginLeft="revert"
+							rating={bike.rating}
+						/>
 					</Grid>
 
 					<Typography>{bike.description}</Typography>

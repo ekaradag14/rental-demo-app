@@ -18,6 +18,16 @@ const bikeReducer = (state: any, action: any) => {
 			});
 			localStorage.setItem('bikeContextValues', JSON.stringify(state));
 			return state;
+		case 'RATE_BIKE':
+			console.log('hey');
+			state.find((bike: any, index: number) => {
+				if (bike.id === action.bikeId) {
+					state[index].rating = action.rating;
+					return true;
+				}
+			});
+			localStorage.setItem('bikeContextValues', JSON.stringify(state));
+			return state;
 		case 'ADD_RESERVATION':
 			state.find((bike: any, index: number) => {
 				if (bike.id === action.bikeId) {
@@ -25,6 +35,7 @@ const bikeReducer = (state: any, action: any) => {
 					return true;
 				}
 			});
+			console.log();
 			localStorage.setItem('bikeContextValues', JSON.stringify(state));
 			return state;
 		case 'REMOVE_RESERVATION':

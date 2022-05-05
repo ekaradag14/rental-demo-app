@@ -9,12 +9,20 @@ export function RatingFilter({ ratingData, setRatingData, onChangeCommitted }) {
 	};
 
 	return (
-		<Box sx={{ width: 220, paddingLeft: 2, paddingTop: 2 }}>
-			<Typography>Rating</Typography>
-			<Grid style={{ margin: 'auto' }}>
+		<Box
+			sx={{
+				width: '100%',
+				paddingLeft: 2,
+				paddingTop: 2,
+				overflowX: 'hidden',
+			}}
+		>
+			<Typography color="primary">Rating</Typography>
+			<Grid style={{ margin: 'auto', width: '100%' }}>
 				<Slider
 					getAriaLabel={() => 'Temperature range'}
 					value={ratingData}
+					style={{ width: '85%' }}
 					max={5}
 					marks
 					onChangeCommitted={onChangeCommitted}

@@ -52,7 +52,6 @@ export const CreateBike = ({
 
 	//@ts-ignore
 	const theme = createTheme(overrideTheme);
-	//@ts-ignore
 	const { bikes, bikesDispatch } = useContext(BikesContext);
 	const validate = (fieldValues = values) => {
 		let temp = { ...errors };

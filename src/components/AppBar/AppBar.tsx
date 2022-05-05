@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import UserContext from '../../contexts/user/context';
 
 import { setUser } from '../../contexts/user/dispatchController';
-const pages = [
+let pages = [
 	{ label: 'Home', route: '/home' },
 	{ label: 'Search', route: '/search' },
 ];
@@ -31,11 +31,20 @@ const AppBarComponent = () => {
 	const history = useHistory();
 	const [activeRoute, setActiveRoute] = useState('/');
 	const match: any = useRouteMatch('*');
+
 	if (user.role === 'manager') {
 		if (!pages.filter((el) => el.route === '/app-data').length) {
 			pages.push({ label: 'App Data', route: '/app-data' });
 		}
+		if (!pages.filter((el) => el.route === '/reservations').length) {
+			pages.push({ label: 'Reservations', route: '/reservations' });
+		}
+	} else {
+		pages = pages.filter(
+			(el) => el.route !== '/app-data' && el.route !== '/reservations'
+		);
 	}
+
 	useEffect(() => {
 		if (match.url !== activeRoute) {
 			if (match.url.lastIndexOf('/') > 0) {
@@ -68,6 +77,9 @@ const AppBarComponent = () => {
 
 	const handleLogout = () => {
 		userDispatch(setUser(null));
+		localStorage.removeItem('userContextValue');
+		localStorage.removeItem('allUsersContextValues');
+		history.push('/login');
 	};
 	return (
 		<AppBar
@@ -155,7 +167,11 @@ const AppBarComponent = () => {
 									routePush(page.route);
 								}}
 								sx={{ my: 2, color: 'white', display: 'block' }}
-								style={{ padding: '6px 8px', borderRadius: 10 }}
+								style={{
+									padding: '6px 8px',
+									borderRadius: 10,
+									color: activeRoute === page.route ? 'white' : '#abcffc',
+								}}
 							>
 								{page.label}
 							</Button>

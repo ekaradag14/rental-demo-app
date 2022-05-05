@@ -24,7 +24,10 @@ const allUserReducer = (state: any, action: any) => {
 			localStorage.setItem('allUsersContextValues', JSON.stringify(state));
 			return state;
 		case 'SET_ALL_USER':
-			localStorage.setItem('allUsersContextValues', JSON.stringify(state));
+			localStorage.setItem(
+				'allUsersContextValues',
+				JSON.stringify(action.users)
+			);
 			return action.users;
 		default:
 			return state;
