@@ -79,7 +79,6 @@ export const RentModal = (props: RentModal) => {
 			});
 			let closestReservationStartIndex =
 				res.indexOf(new Date(startDate).getTime()) + 1;
-			console.log(res[closestReservationStartIndex]);
 			if (res[closestReservationStartIndex]) {
 				setMaxDate(new Date(res[closestReservationStartIndex]));
 			}
@@ -96,7 +95,6 @@ export const RentModal = (props: RentModal) => {
 			});
 			let closestReservationStartIndex =
 				res.indexOf(new Date(endDate).getTime()) - 1;
-			console.log(res[closestReservationStartIndex]);
 			if (res[closestReservationStartIndex]) {
 				setMinDate(new Date(res[closestReservationStartIndex]));
 			}
@@ -110,7 +108,7 @@ export const RentModal = (props: RentModal) => {
 			</DialogTitle>
 			<Grid container padding={2}>
 				<Grid item md={6}>
-					<img width={300} src={bike.img} />
+					<img width={300} alt="bike model" src={bike.img} />
 				</Grid>
 				<Grid item md={6}>
 					<Grid style={{ display: 'block', paddingBottom: 10 }}>
@@ -133,7 +131,6 @@ export const RentModal = (props: RentModal) => {
 									onChange={(newValue) => {
 										setStartDate(newValue);
 									}}
-									// maxDate={endDate}
 									renderInput={(params) => <TextField {...params} />}
 								/>
 							</Grid>

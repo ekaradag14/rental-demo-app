@@ -7,7 +7,6 @@ const userReducer = (state: any, action: any) => {
 			state.reservations = state.reservations.filter(
 				(reservation) => reservation.reservationId !== action.reservationId
 			);
-			console.log('new user', state, action);
 			localStorage.setItem('userContextValue', JSON.stringify(state));
 			return state;
 		case 'ADD_RESERVATION':

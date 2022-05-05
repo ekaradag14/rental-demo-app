@@ -124,6 +124,7 @@ export const CreateBike = ({
 							id: generateRandomID(),
 							reservations: [],
 							img: srcData,
+							rating: 1,
 						})
 					);
 					close();

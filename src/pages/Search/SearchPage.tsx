@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 
 import { Grid, Box } from '@mui/material';
 
@@ -7,19 +7,27 @@ import { SearchDrawer } from '../../components/SearchDrawer/SearchDrawer';
 import { BikeCard } from '../../components/BikeCard/BikeCard';
 import BikesContext from '../../contexts/bikes/context';
 import { BikeProps } from '../../common/types';
-
+import { useSearch } from '../../common/hooks/useSearch';
 export const SearchPage = (props: any) => {
 	const classes = useStyles();
 	//@ts-ignore
 	const { bikes, bikesDispatch } = useContext(BikesContext);
-	const [bikeResults, setBikeResults] = useState(bikes);
+	// const [bikeResults, setBikeResults] = useState(bikes);
 	const [renderKey, setRenderKey] = useState(0);
 	const [modelData, setModelData] = useState<any[]>([]);
 	const [ratingData, setRatingData] = useState<number[]>([1, 5]);
 	const [colorData, setColorData] = useState<any[]>([]);
 	const [locationData, setLocationData] = useState<any[]>([]);
 	const [startDate, setStartDate] = useState<Date | null>(null);
+	const [bikeResults, setBikeResults] = useState(bikes);
 	const [endDate, setEndDate] = useState<Date | null>(null);
+	const { getResults } = useSearch(
+		bikes,
+		modelData,
+		colorData,
+		locationData,
+		ratingData
+	);
 
 	const handleFilterData = (newData: any, type: string) => {
 		if (type === 'models') {
@@ -29,48 +37,10 @@ export const SearchPage = (props: any) => {
 		} else if (type === 'colors') {
 			setColorData(newData);
 		}
-		let searchResults = [...bikes];
-
-		let selectedModels: string[] = modelData
-			.filter((el) => el.checked)
-			.map((el) => el.label);
-		if (selectedModels.length) {
-			searchResults = searchResults.filter((el) =>
-				selectedModels.includes(el.model)
-			);
-		}
-
-		searchResults = searchResults.filter(
-			(el) =>
-				el.rating > Math.min(...ratingData) &&
-				el.rating < Math.max(...ratingData)
-		);
-
-		let selectedLocations: string[] = locationData
-			.filter((el) => el.checked)
-			.map((el) => el.label);
-
-		if (selectedLocations.length) {
-			searchResults = searchResults.filter((el) =>
-				selectedLocations.includes(el.location)
-			);
-		}
-
-		let selectedColors: string[] = colorData
-			.filter((el) => el.checked)
-			.map((el) => el.label);
-
-		if (selectedColors.length) {
-			searchResults = searchResults.filter((el) =>
-				selectedColors.includes(el.color)
-			);
-		}
-
-		setBikeResults(searchResults);
+		setBikeResults(getResults());
 		setRenderKey((renderKey) => renderKey + 1);
 	};
-
-	useEffect(() => {
+	useMemo(() => {
 		let models: any[] = [];
 		bikes.forEach((bike: BikeProps) => {
 			if (!models.includes(bike.model)) {
@@ -97,11 +67,10 @@ export const SearchPage = (props: any) => {
 		});
 		colors = colors.map((el) => ({ label: el, checked: false }));
 		setColorData(colors);
-	}, []);
+	}, [bikes]);
 
 	useEffect(() => {
 		if (startDate && endDate) {
-			console.log(startDate.getTime(), endDate.getTime());
 			setBikeResults(() =>
 				bikes.filter((el: BikeProps) => {
 					let isBookedForThatTime = false;

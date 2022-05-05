@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
+import { useStyles } from './BikeCard.style';
 
 export const RatingStars = ({
 	rating,
@@ -10,17 +11,12 @@ export const RatingStars = ({
 	rating: number;
 	marginLeft?: string;
 }) => {
+	const classes = useStyles();
 	const [value, setValue] = useState<number | null>(rating);
 	const [hover, setHover] = useState(-1);
 
 	return (
-		<Box
-			sx={{
-				width: '100%',
-				display: 'flex',
-				alignItems: 'center',
-			}}
-		>
+		<Box className={classes.ratingStartsContainer}>
 			<Rating
 				style={{ marginLeft }}
 				name="hover-feedback"

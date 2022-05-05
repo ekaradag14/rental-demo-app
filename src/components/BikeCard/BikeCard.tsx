@@ -34,8 +34,8 @@ export const BikeCard = ({
 }: BikeCardProps) => {
 	const classes = useStyles();
 	//@ts-ignore
-	const { bikes, bikesDispatch } = useContext(BikesContext);
-	const { user, userDispatch } = useContext(UserContext);
+	const { bikesDispatch } = useContext(BikesContext);
+	const { userDispatch } = useContext(UserContext);
 	const [isRentModalOpen, setIsRentModalOpen] = useState(false);
 	const handleSubmit = () => {
 		if (reservationId) {
@@ -48,9 +48,9 @@ export const BikeCard = ({
 	};
 	return (
 		<Card sx={{ maxWidth: 345 }}>
-			<CardMedia component="img" height="140" image={img} alt="green iguana" />
+			<CardMedia component="img" height="140" image={img} alt="bike image" />
 			<CardContent style={{ paddingBottom: 0 }}>
-				<Grid style={{ display: 'flex', flexDirection: 'row' }}>
+				<Grid className={classes.modelTextContainer}>
 					<Typography
 						style={{ width: '100%' }}
 						variant="subtitle1"
@@ -64,21 +64,8 @@ export const BikeCard = ({
 				<Typography variant="body2" color="text.secondary">
 					{description}
 				</Typography>
-				<Grid
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						width: '100%',
-					}}
-				>
-					<Grid
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							paddingTop: 8,
-							alignContent: 'center',
-						}}
-					>
+				<Grid className={classes.contentFooterContainer}>
+					<Grid className={classes.locationContainer}>
 						<LocationOnIcon style={{ color: 'gray' }} />
 						<Typography
 							variant="body2"
@@ -88,15 +75,7 @@ export const BikeCard = ({
 							{location}
 						</Typography>
 					</Grid>
-					<Grid
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							paddingTop: 8,
-							alignContent: 'center',
-							marginLeft: 'auto',
-						}}
-					>
+					<Grid className={classes.colorContainer}>
 						<Typography
 							variant="body2"
 							color="text.secondary"
@@ -105,18 +84,16 @@ export const BikeCard = ({
 							{GetColorName(color)}
 						</Typography>
 						<Grid
+							className={classes.colorPreviewBox}
 							style={{
 								backgroundColor: color,
-								width: 20,
-								height: 20,
-								borderRadius: 20,
 							}}
 						></Grid>
 					</Grid>
 				</Grid>
 			</CardContent>
 			<CardActions>
-				<Grid style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+				<Grid className={classes.cardActionsContainer}>
 					<Button disabled={!available} onClick={handleSubmit} size="small">
 						{available
 							? reservationId

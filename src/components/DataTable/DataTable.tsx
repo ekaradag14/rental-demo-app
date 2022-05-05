@@ -249,7 +249,6 @@ export default function EnhancedTable({
 	const [selected, setSelected] = useState([]);
 
 	const [willBeDeleted, setWillBeDeleted] = useState([]);
-	if (tableTitle === 'Novus Codes') console.log(rowData);
 	const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageHOC || 5);
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';

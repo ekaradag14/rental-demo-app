@@ -57,7 +57,6 @@ export const SignUp = () => {
 			role: 'user',
 			reservations: [],
 		};
-		console.log(newUserData.password);
 		userDispatch(setUser(newUserData));
 		setLoading(false);
 	};
