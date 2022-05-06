@@ -3,8 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 
-import { CreateBike } from '../../components/CreateBike/CreateBike';
-import { Divider, Typography, Grid, TextField, Button } from '@mui/material';
+import { Typography, Grid, TextField, Button } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -14,21 +13,21 @@ import BikesContext from '../../contexts/bikes/context';
 import UserContext from '../../contexts/user/context';
 import { addBikeReservationInContext } from '../../contexts/bikes/dispatchController';
 import { addReservationToUser } from '../../contexts/user/dispatchController';
-export interface RentModal {
+export interface RentModalProps {
 	open: boolean;
 	bike: any;
 	reservations: any[];
 	onClose: () => void;
 }
 
-export const RentModal = (props: RentModal) => {
+export const RentModal = (props: RentModalProps) => {
 	const { onClose, open, bike, reservations } = props;
 	const [startDate, setStartDate] = useState(null);
 	const [maxDate, setMaxDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
 	const [minDate, setMinDate] = useState(null);
 
-	const { bikes, bikesDispatch } = useContext(BikesContext);
+	const { bikesDispatch } = useContext(BikesContext);
 	const { user, userDispatch } = useContext(UserContext);
 	const handleClose = () => {
 		resetReservation();
@@ -68,7 +67,7 @@ export const RentModal = (props: RentModal) => {
 	useEffect(() => {
 		if (startDate) {
 			let res = [];
-			reservations.map((el) => {
+			reservations.forEach((el) => {
 				res.push(el.start);
 				res.push(el.end);
 			});
@@ -84,7 +83,7 @@ export const RentModal = (props: RentModal) => {
 		}
 		if (endDate) {
 			let res = [];
-			reservations.map((el) => {
+			reservations.forEach((el) => {
 				res.push(el.start);
 				res.push(el.end);
 			});
@@ -98,7 +97,7 @@ export const RentModal = (props: RentModal) => {
 				setMinDate(new Date(res[closestReservationStartIndex]));
 			}
 		}
-	}, [startDate, endDate]);
+	}, [startDate, endDate, reservations]);
 
 	return (
 		<Dialog onClose={handleClose} open={open} maxWidth="md">
