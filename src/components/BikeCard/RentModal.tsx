@@ -153,7 +153,7 @@ export const RentModal = (props: RentModal) => {
 							</Grid>
 						</Grid>
 					</LocalizationProvider>
-					<Grid marginTop={1} container spacing={3}>
+					<Grid container marginTop={1} spacing={3}>
 						<Grid item sm={2}>
 							<Button
 								variant="contained"
@@ -163,6 +163,7 @@ export const RentModal = (props: RentModal) => {
 								Rent
 							</Button>
 						</Grid>
+						<Grid item sm={1}></Grid>
 						<Grid item sm={2}>
 							<Button
 								onClick={() => resetReservation()}

@@ -10,7 +10,7 @@ import bikeImage8 from '../assets/bikes/bike8.png';
 import { BikeProps } from '../common/types';
 export const bikesData: BikeProps[] = [
 	{
-		id: 'hhasbas',
+		id: 'ggfsbas',
 		model: 'Gallardo',
 		color: '#003E40',
 		location: 'Berlin',
@@ -19,14 +19,14 @@ export const bikesData: BikeProps[] = [
 		img: bikeImage6,
 		reservations: [
 			{
-				bikeId: 'hhasbas',
+				bikeId: 'ggfsbas',
 				end: 1651862246000,
 				reservationId: 'boz7qhhh6zk',
 				start: 1651689443000,
 				userId: 'asygduab',
 			},
 			{
-				bikeId: 'hhasbas',
+				bikeId: 'ggfsbas',
 				end: 1751862246000,
 				reservationId: 'box7qhhh6zk',
 				start: 1751689443000,
@@ -75,48 +75,13 @@ export const bikesData: BikeProps[] = [
 		description:
 			'A long-travel all-mountain bike built for racing enduro lines and having a rippin’ good time in the rough.',
 	},
-	{
-		id: 'hhxgbas',
-		model: 'Slash',
-		color: '#02E1C9',
-		location: 'Istanbul',
-		rating: 4.2,
-		available: true,
-		img: bikeImage1,
-		reservations: [],
-		description:
-			'This hardtail’s all about having a blast on the trail thanks to grippy 2.8˝ tires and a burly 120mm fork.',
-	},
-	{
-		id: 'hhxcbbas',
-		model: 'Domane',
-		color: '#ba000d',
-		location: 'Bucharest',
-		rating: 1.1,
-		available: true,
-		img: bikeImage2,
-		reservations: [],
-		description:
-			'His high-end endurance road bike comes equipped with a new Dura-Ace Di2 wireless electronic.',
-	},
-	{
-		id: 'hnjsbas',
-		model: 'Roscoe 6',
-		color: '#0B0B0B',
-		location: 'Bucharest',
-		rating: 4.8,
-		available: true,
-		img: bikeImage3,
-		reservations: [],
-		description:
-			'Snappy 27.5˝ wheels make this the rig for popping off jumps,new wireless and throwing the bike around.',
-	},
+
 	{
 		id: 'hhaskns',
 		model: 'Rail 9',
 		color: '#480404',
 		location: 'Berlin',
-		rating: 4.8,
+		rating: 1.8,
 		available: true,
 		img: bikeImage4,
 		reservations: [
@@ -139,7 +104,7 @@ export const bikesData: BikeProps[] = [
 			'A lightweight 400 OCLV Carbon frame, a high-quality drivetrain, and Bontrager carbon wheels.',
 	},
 	{
-		id: 'hmjskns',
+		id: 'xfjgkns',
 		model: 'Sakur',
 		color: '#489405',
 		location: 'Madrid',
@@ -150,20 +115,9 @@ export const bikesData: BikeProps[] = [
 		description:
 			'A full carbon frame, all-new hard-charging suspension with fast-rolling carbon wheels.',
 	},
+
 	{
-		id: 'hhqwsnsxns',
-		model: 'Allant',
-		color: '#12c5',
-		location: 'Istanbul',
-		rating: 4.0,
-		available: true,
-		img: bikeImage7,
-		reservations: [],
-		description:
-			"520 is a steel touring bike made for the open road. It's the longest-running model in our lineup, and it's built to carry you and your gear on your longest journeys. ",
-	},
-	{
-		id: 'hhaweyuxns',
+		id: 'utervfg',
 		model: 'Velve',
 		color: '#125',
 		location: 'Bucharest',
@@ -175,35 +129,23 @@ export const bikesData: BikeProps[] = [
 				start: 1652365167000,
 				end: 1652537973000,
 				userId: 'hsgfdlytvd',
-				bikeId: 'hhaweyuxns',
+				bikeId: 'utervfg',
 				reservationId: 'snef2fv0ld',
 			},
 			{
 				start: 1652969769000,
 				end: 1653488172000,
 				userId: 'hstyreklytvd',
-				bikeId: 'hhaweyuxns',
+				bikeId: 'utervfg',
 				reservationId: 'y1ukty0gzk',
 			},
 		],
 		description:
 			' Rack and fender mounts, a wide range of gearing for climbing, and a stable touring geometry make it the perfect choice for loaded multi-day trips and comfortable all-day adventures.',
 	},
-	{
-		id: 'hhfgvas',
-		model: 'Slash',
-		color: '#02E1C9',
-		location: 'Madrid',
-		rating: 2.8,
-		available: true,
-		img: bikeImage1,
-		reservations: [],
-		description:
-			'This hardtail’s all about having a blast on the trail thanks to grippy 2.8˝ tires and a burly 120mm fork.',
-	},
 
 	{
-		id: 'hhxnbbas',
+		id: 'kdvasxns',
 		model: 'Domane',
 		color: '#ba000d',
 		location: 'Berlin',
@@ -215,7 +157,7 @@ export const bikesData: BikeProps[] = [
 				start: 1652969789000,
 				end: 1653228992000,
 				userId: 'hstyreklytvd',
-				bikeId: 'hhxnbbas',
+				bikeId: 'kdvasxns',
 				reservationId: 'ggtdp6mk2jo',
 			},
 		],
@@ -223,7 +165,7 @@ export const bikesData: BikeProps[] = [
 			'His high-end endurance road bike comes equipped with a new Dura-Ace Di2 wireless electronic.',
 	},
 	{
-		id: 'hhasxns',
+		id: 'xcfasxns',
 		model: 'Rail 9',
 		color: '#480404',
 		location: 'Bucharest',
@@ -255,7 +197,7 @@ export const bikesData: BikeProps[] = [
 			"520 is a steel touring bike made for the open road. It's the longest-running model in our lineup, and it's built to carry you and your gear on your longest journeys. ",
 	},
 	{
-		id: 'hhasnyuxns',
+		id: 'nxasie',
 		model: 'Velve',
 		color: '#125',
 		location: 'Istanbul',

@@ -1,5 +1,5 @@
 export const shortenText = (str: string, maxChar: number) => {
-	if (str.length > maxChar - 3) {
+	if (str && str.length > maxChar - 3) {
 		str = str.substring(0, maxChar - 3) + '...';
 	}
 	return str;

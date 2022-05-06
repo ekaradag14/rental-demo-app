@@ -18,7 +18,7 @@ export function RatingFilter({ ratingData, setRatingData, onChangeCommitted }) {
 			}}
 		>
 			<Typography color="primary">Rating</Typography>
-			<Grid style={{ margin: 'auto', width: '100%' }}>
+			<Grid style={{ margin: 'auto', width: '90%' }}>
 				<Slider
 					getAriaLabel={() => 'Temperature range'}
 					value={ratingData}

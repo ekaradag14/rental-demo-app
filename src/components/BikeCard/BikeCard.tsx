@@ -47,9 +47,9 @@ export const BikeCard = ({
 		}
 	};
 	return (
-		<Card sx={{ maxWidth: 345, height: 330 }}>
+		<Card className={classes.cardRoot}>
 			<CardMedia component="img" height="140" image={img} alt="bike image" />
-			<CardContent style={{ paddingBottom: 0 }}>
+			<CardContent className={classes.cardContent}>
 				<Grid key={rating} className={classes.modelTextContainer}>
 					<Typography
 						style={{ width: '100%' }}
@@ -81,7 +81,7 @@ export const BikeCard = ({
 							color="text.secondary"
 							style={{ paddingRight: 4 }}
 						>
-							{GetColorName(color)}
+							{color && GetColorName(color)}
 						</Typography>
 						<Grid
 							className={classes.colorPreviewBox}
@@ -92,7 +92,7 @@ export const BikeCard = ({
 					</Grid>
 				</Grid>
 			</CardContent>
-			<CardActions>
+			<CardActions style={{ marginTop: 'auto' }}>
 				<Grid className={classes.cardActionsContainer}>
 					<Button disabled={!available} onClick={handleSubmit} size="small">
 						{available

@@ -13,8 +13,24 @@ import UserContext from '../../contexts/user/context';
 export const HomePage = (props: any) => {
 	const classes = useStyles();
 	const [renderKey, setRenderKey] = useState(0);
+	const [userReservations, setUserReservations] = useState([]);
 	const { bikes } = useContext(BikesContext);
 	const { user } = useContext(UserContext);
+
+	useEffect(() => {
+		if (bikes.length) {
+			let reservations = [];
+			bikes.forEach((bike) => {
+				bike.reservations.forEach((res) => {
+					if (res.userId === user.id) {
+						reservations.push(res);
+					}
+				});
+			});
+			setUserReservations(reservations);
+		}
+	}, [bikes, user.id]);
+
 	return (
 		<Grid>
 			<Grid style={{ padding: 10 }}>
@@ -23,8 +39,8 @@ export const HomePage = (props: any) => {
 					Your Upcoming Bookings
 				</Typography>
 				<Grid container key={renderKey} spacing={4} marginTop={1}>
-					{user.reservations.length ? (
-						user.reservations.map((reservation) => {
+					{userReservations.length ? (
+						userReservations.map((reservation) => {
 							const bike: BikeProps = bikes.find(
 								(el: BikeProps) => el.id === reservation.bikeId
 							);

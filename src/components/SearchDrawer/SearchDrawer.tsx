@@ -42,15 +42,6 @@ export const SearchDrawer = ({
 }) => {
 	const classes = useStyles();
 
-	const resetFilter = () => {
-		setStartDate(null);
-		setEndDate(null);
-		setModelData([]);
-		setRatingData([1, 5]);
-		setColorData([]);
-		setLocationData([]);
-		setModelData([]);
-	};
 	return (
 		<Drawer
 			sx={{

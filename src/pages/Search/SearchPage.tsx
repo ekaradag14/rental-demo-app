@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useMemo } from 'react';
 
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 
 import { useStyles } from './SearchPage.style';
 import { SearchDrawer } from '../../components/SearchDrawer/SearchDrawer';
@@ -15,7 +15,7 @@ export const SearchPage = (props: any) => {
 	// const [bikeResults, setBikeResults] = useState(bikes);
 	const [renderKey, setRenderKey] = useState(0);
 	const [modelData, setModelData] = useState<any[]>([]);
-	const [ratingData, setRatingData] = useState<number[]>([1, 5]);
+	const [ratingData, setRatingData] = useState<number[]>([0, 5]);
 	const [colorData, setColorData] = useState<any[]>([]);
 	const [locationData, setLocationData] = useState<any[]>([]);
 	const [startDate, setStartDate] = useState<Date | null>(null);
@@ -92,8 +92,10 @@ export const SearchPage = (props: any) => {
 				})
 			);
 			setRenderKey((renderKey) => renderKey + 1);
+		} else {
+			setBikeResults(getResults());
 		}
-	}, [startDate, endDate]);
+	}, [startDate, endDate, bikes]);
 
 	return (
 		<Grid container spacing={2}>
@@ -143,7 +145,17 @@ export const SearchPage = (props: any) => {
 							</Grid>
 						))
 					) : (
-						<p>No suitable bike</p>
+						<Typography
+							variant="h4"
+							style={{
+								marginTop: 60,
+								marginLeft: 50,
+								color: 'gray',
+								fontStyle: 'italic',
+							}}
+						>
+							No suitable bike matching search criteria
+						</Typography>
 					)}
 				</Grid>
 			</Grid>

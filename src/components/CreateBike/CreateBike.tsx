@@ -9,7 +9,10 @@ import {
 	Typography,
 	FormControlLabel,
 } from '@mui/material';
-
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+import { useStyles } from './CreateBike.style';
 import overrideTheme from './uploadImageTheme';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createTheme } from '@material-ui/core/styles';
@@ -45,7 +48,7 @@ export const CreateBike = ({
 	close: any;
 	initialBike?: any;
 }) => {
-	// const classes = useStyles();
+	const classes = useStyles();
 	const [imageToBeUploaded, setImageToBeUploaded] = useState<File[]>([]);
 	const [dropzoneKey, setDropzoneKey] = useState(0);
 	const [generalError, setGeneralError] = useState('');
@@ -53,6 +56,9 @@ export const CreateBike = ({
 	//@ts-ignore
 	const theme = createTheme(overrideTheme);
 	const { bikes, bikesDispatch } = useContext(BikesContext);
+	const [rating, setRating] = useState<number | null>(
+		initialBike ? initialBike.rating : 2
+	);
 	const validate = (fieldValues = values) => {
 		let temp = { ...errors };
 		if ('model' in fieldValues)
@@ -98,6 +104,7 @@ export const CreateBike = ({
 						bikesDispatch(
 							updateBikeInContext({
 								...values,
+								rating,
 								img: srcData,
 							})
 						);
@@ -109,6 +116,7 @@ export const CreateBike = ({
 					bikesDispatch(
 						updateBikeInContext({
 							...values,
+							rating,
 						})
 					);
 					close();
@@ -123,7 +131,7 @@ export const CreateBike = ({
 							id: generateRandomID(),
 							reservations: [],
 							img: srcData,
-							rating: 1,
+							rating,
 						})
 					);
 					close();
@@ -177,7 +185,7 @@ export const CreateBike = ({
 						item
 						sm={5}
 						spacing={3}
-						style={{ padding: 10, display: 'flex', flexDirection: 'row' }}
+						className={classes.formFieldsContainer}
 					>
 						{formFields.map((el) => (
 							<Grid item sm={12} key={el.label}>
@@ -195,7 +203,25 @@ export const CreateBike = ({
 								/>
 							</Grid>
 						))}
-						<Grid item sm={12}>
+						<Grid container item sm={12}>
+							<Grid item sm={2}>
+								<Typography>Rating</Typography>
+							</Grid>
+							<Grid item>
+								<Rating
+									name="hover-feedback"
+									precision={0.2}
+									value={rating}
+									onChange={(event, newValue) => {
+										setRating(newValue);
+									}}
+									emptyIcon={
+										<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+									}
+								/>
+							</Grid>
+						</Grid>
+						<Grid item sm={12} marginLeft={1.5}>
 							<FormControlLabel
 								label="Available"
 								control={
@@ -217,13 +243,7 @@ export const CreateBike = ({
 						item
 						sm={6}
 						spacing={1}
-						style={{
-							padding: 10,
-							marginLeft: 'auto',
-							display: 'flex',
-							flexDirection: 'row',
-							maxHeight: 350,
-						}}
+						className={classes.dropzoneContainer}
 					>
 						<MuiThemeProvider theme={theme}>
 							<DropzoneArea
@@ -250,35 +270,20 @@ export const CreateBike = ({
 						</MuiThemeProvider>
 					</Grid>
 				</Grid>
-				<Typography style={{ color: 'red', margin: 10, marginLeft: 22 }}>
-					{generalError}
-				</Typography>
-				<Grid
-					container
-					item
-					xs={12}
-					style={{ display: 'flex', alignItems: 'center', paddingBottom: 20 }}
-				>
-					<Grid
-						item
-						sm={6}
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							margin: 'auto',
-						}}
-					>
+				<Typography className={classes.errorText}>{generalError}</Typography>
+				<Grid container item xs={12} className={classes.buttonContainer}>
+					<Grid item sm={6} className={classes.submitFormButtonContainer}>
 						<Button
-							style={{ width: '50%', margin: 'auto' }}
+							className={classes.formButton}
 							variant="contained"
 							type="submit"
 						>
-							Submit
+							Save
 						</Button>
 					</Grid>
-					<Grid item sm={6} style={{ display: 'flex', alignItems: 'center' }}>
+					<Grid item sm={6} className={classes.resetFormButtonContainer}>
 						<Button
-							style={{ width: '50%', margin: 'auto' }}
+							className={classes.formButton}
 							variant="contained"
 							color="secondary"
 							onClick={resetForm}
