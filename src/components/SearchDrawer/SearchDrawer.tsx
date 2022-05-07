@@ -5,7 +5,7 @@ import { useStyles } from './SearchDrawer.style';
 import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import { CheckboxGroupFilter } from '../Filter/CheckboxGrupFilter';
+import { CheckboxGroupFilter } from '../Filter/CheckboxGroupFilter';
 import { DatePickerFilter } from '../Filter/DatePickerFilter';
 import { RatingFilter } from '../Filter/RatingFilter';
 import { Button } from '@mui/material';
