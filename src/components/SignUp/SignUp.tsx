@@ -2,23 +2,25 @@ import { Button, CircularProgress, Grid, Link } from '@mui/material';
 import { ChangeEvent, SyntheticEvent, useState, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField } from '../TextField/TextField';
-// import { CommonActions } from '../../../common/contexts/CommonSlice';
+
 import { alertMessages } from '../../common/helper/alertMessages';
-// import { useAppDispatch } from '../../../common/redux/hooks';
-// import { AuthActions } from '../../../user/contexts/AuthorizationSlice';
-// import { loginAPI, signupAPI } from '../../../user/helper/userAPI';
+
 import { useStyles } from './SignUp.style';
 import UserContext from '../../contexts/user/context';
 import { setUser } from '../../contexts/user/dispatchController';
+import AllUserContext from '../../contexts/allUsers/context';
+import { addUserToContext } from '../../contexts/allUsers/dispatchController';
+import { generateRandomID } from '../../common/helper/utils';
 var CryptoJS = require('crypto-js');
+
 export const emailRegEx =
 	/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export const SignUp = () => {
 	const classes = useStyles();
-	// const dispatch = useAppDispatch();
-	//@ts-ignore
-	const { user, userDispatch } = useContext(UserContext);
+
+	const { userDispatch } = useContext(UserContext);
+	const { allUsersDispatch } = useContext(AllUserContext);
 	const [errors, setErrors] = useState<any>(emptyError);
 	const [loading, setLoading] = useState(false);
 	const [formValues, setFormValues] = useState(emptyData);
@@ -49,6 +51,7 @@ export const SignUp = () => {
 
 		const newUserData = {
 			...formValues,
+			id: generateRandomID(),
 			email: formValues.email.trim(),
 			password: CryptoJS.AES.encrypt(
 				formValues.password,
@@ -57,6 +60,7 @@ export const SignUp = () => {
 			role: 'user',
 			reservations: [],
 		};
+		allUsersDispatch(addUserToContext(newUserData));
 		userDispatch(setUser(newUserData));
 		setLoading(false);
 	};

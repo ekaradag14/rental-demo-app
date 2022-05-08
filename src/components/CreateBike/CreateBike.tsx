@@ -29,7 +29,7 @@ import {
 	updateBikeInContext,
 } from '../../contexts/bikes/dispatchController';
 
-export const generateRandomID = () => Math.random().toString(36).slice(2);
+import { generateRandomID } from '../../common/helper/utils';
 
 const initialFValues = {
 	model: '',

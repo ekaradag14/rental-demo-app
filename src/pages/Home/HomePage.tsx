@@ -29,7 +29,7 @@ export const HomePage = (props: any) => {
 			});
 			setUserReservations(reservations);
 		}
-	}, [bikes, user.id]);
+	}, [bikes, user.id, renderKey]);
 
 	return (
 		<Grid>
@@ -38,33 +38,36 @@ export const HomePage = (props: any) => {
 				<Typography variant="h3" className={classes.upcomingBookingsText}>
 					Your Upcoming Bookings
 				</Typography>
-				<Grid container key={renderKey} spacing={4} marginTop={1}>
+				<Grid container spacing={4} marginTop={1}>
 					{userReservations.length ? (
-						userReservations.map((reservation) => {
-							const bike: BikeProps = bikes.find(
-								(el: BikeProps) => el.id === reservation.bikeId
-							);
-							return (
-								<Grid
-									key={reservation.reservationId}
-									item
-									xs={12}
-									sm={6}
-									md={4}
-									lg={3}
-								>
-									<BikeCard
-										{...bike}
-										reservationId={reservation.reservationId}
-										setRenderKey={setRenderKey}
-									/>
-									<Typography variant="h5" className={classes.dateRangeText}>
-										{new Date(reservation.start).toLocaleDateString()}-
-										{new Date(reservation.end).toLocaleDateString()}
-									</Typography>
-								</Grid>
-							);
-						})
+						userReservations
+							.filter((reservation) => reservation.end > new Date().getTime())
+							.map((reservation) => {
+								const bike: BikeProps = bikes.find(
+									(el: BikeProps) => el.id === reservation.bikeId
+								);
+
+								return (
+									<Grid
+										key={reservation.reservationId}
+										item
+										xs={12}
+										sm={6}
+										md={4}
+										lg={3}
+									>
+										<BikeCard
+											{...bike}
+											reservationId={reservation.reservationId}
+											setRenderKey={setRenderKey}
+										/>
+										<Typography variant="h5" className={classes.dateRangeText}>
+											{new Date(reservation.start).toLocaleDateString()}-
+											{new Date(reservation.end).toLocaleDateString()}
+										</Typography>
+									</Grid>
+								);
+							})
 					) : (
 						<Typography variant="h4" className={classes.noReservationText}>
 							--You have no upcoming reservations--

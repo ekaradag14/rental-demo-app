@@ -8,7 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { RatingStars } from './RatingStars';
-import { generateRandomID } from '../CreateBike/CreateBike';
+import { generateRandomID } from '../../common/helper/utils';
 import BikesContext from '../../contexts/bikes/context';
 import UserContext from '../../contexts/user/context';
 import { addBikeReservationInContext } from '../../contexts/bikes/dispatchController';
@@ -43,10 +43,13 @@ export const RentModal = (props: RentModalProps) => {
 
 	const disableDates = (date) => {
 		let shouldBeDisabled = false;
+
 		reservations.forEach((el) => {
 			if (
-				new Date(date).getTime() >= el.start - 3 &&
-				new Date(date).getTime() <= el.end + 3
+				(new Date(date).getTime() >= el.start + 3 &&
+					new Date(date).getTime() <= el.end - 3) ||
+				new Date(date).toLocaleDateString() ===
+					new Date(el.start).toLocaleDateString()
 			)
 				shouldBeDisabled = true;
 		});

@@ -51,7 +51,7 @@ const createReservations = (
 			}
 			return true;
 		});
-	console.log('reservations', reservations);
+
 	return reservations;
 };
 

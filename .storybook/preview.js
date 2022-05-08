@@ -6,18 +6,7 @@ import { bikesData } from '../src/data/bikes';
 import UserContext from '../src/contexts/user/context';
 import userReducer from '../src/contexts/user/reducer';
 
-// const StorybookWrapper = (storyFn) => {
-// 	const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);
-// 	const [user, userDispatch] = useReducer(userReducer, UserContext);
-// 	console.log(storyFn);
-// 	return (
-// 		<BikesContext.Provider value={{ bikes, bikesDispatch }}>
-// 			<UserContext.Provider value={{ user, userDispatch }}>
-// 				{storyFn}
-// 			</UserContext.Provider>
-// 		</BikesContext.Provider>
-// 	);
-// };
+
 export const decorators = [
 	(Story) => {
 		const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);

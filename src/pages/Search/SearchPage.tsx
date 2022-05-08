@@ -125,9 +125,10 @@ export const SearchPage = (props: any) => {
 					/>
 				</Box>
 			</Grid>
-			<Grid item sm={10}>
+			<Grid container item sm={10}>
 				<Grid
 					container
+					item
 					sm={12}
 					sx={{
 						paddingLeft: { lg: 2, md: 10, sm: 15, xs: 35 },

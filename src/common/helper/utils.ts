@@ -17,3 +17,5 @@ export const dateRangeOverlaps = (
 	if (b_start < a_start && a_end < b_end) hasOverlap = true; // a in b
 	return hasOverlap;
 };
+
+export const generateRandomID = () => Math.random().toString(36).slice(2);

@@ -15,7 +15,7 @@ import {
 	addUserToContext,
 	updateUserInContext,
 } from '../../contexts/allUsers/dispatchController';
-import { generateRandomID } from '../../components/CreateBike/CreateBike';
+import { generateRandomID } from '../../common/helper/utils';
 const initialFValues = {
 	firstName: '',
 	lastName: '',
@@ -75,6 +75,7 @@ export const UserForm = ({
 			} else {
 				const newUserData = {
 					...values,
+					id: generateRandomID(),
 					email: values.email.trim(),
 					password: CryptoJS.AES.encrypt(
 						values.password,

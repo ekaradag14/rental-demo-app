@@ -78,7 +78,6 @@ const AppBarComponent = () => {
 	const handleLogout = () => {
 		userDispatch(setUser(null));
 		localStorage.removeItem('userContextValue');
-		localStorage.removeItem('allUsersContextValues');
 		history.push('/login');
 	};
 	return (

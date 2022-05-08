@@ -106,10 +106,10 @@ const App = () => {
 		} else {
 			bikesDispatch(setBikesToContext(bikesData));
 		}
-		let allUsers = JSON.parse(localStorage.getItem('allUsersContextValues'));
 
-		// Set application users for managers only
-		if (isManager && allUsers) {
+		// Set application users
+		let allUsers = JSON.parse(localStorage.getItem('allUsersContextValues'));
+		if (allUsers) {
 			allUsersDispatch(setAllUser(allUsers));
 		} else if (isManager) {
 			allUsersDispatch(setAllUser(usersData));
