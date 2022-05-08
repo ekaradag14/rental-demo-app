@@ -9,8 +9,10 @@ import { useStyles } from './SignUp.style';
 import UserContext from '../../contexts/user/context';
 import { setUser } from '../../contexts/user/dispatchController';
 import AllUserContext from '../../contexts/allUsers/context';
+
 import { addUserToContext } from '../../contexts/allUsers/dispatchController';
 import { generateRandomID } from '../../common/helper/utils';
+
 var CryptoJS = require('crypto-js');
 
 export const emailRegEx =
@@ -20,7 +22,8 @@ export const SignUp = () => {
 	const classes = useStyles();
 
 	const { userDispatch } = useContext(UserContext);
-	const { allUsersDispatch } = useContext(AllUserContext);
+
+	const { allUsers, allUsersDispatch } = useContext(AllUserContext);
 	const [errors, setErrors] = useState<any>(emptyError);
 	const [loading, setLoading] = useState(false);
 	const [formValues, setFormValues] = useState(emptyData);
@@ -45,6 +48,13 @@ export const SignUp = () => {
 				...errors,
 				password: 'Password must be at least 6 characters.',
 			});
+			setLoading(false);
+			return;
+		} else if (
+			allUsers.filter((user) => user.email.trim() === formValues.email.trim())
+				.length
+		) {
+			setErrors({ ...errors, email: 'This email is already taken.' });
 			setLoading(false);
 			return;
 		}
@@ -79,6 +89,7 @@ export const SignUp = () => {
 							error={errors.firstName ? true : false}
 							value={formValues.firstName}
 							onChange={handleChange}
+							required
 						/>
 					</Grid>
 					<Grid xs={12} item sm={6}>
@@ -91,6 +102,7 @@ export const SignUp = () => {
 							error={errors.lastName ? true : false}
 							value={formValues.lastName}
 							onChange={handleChange}
+							required
 						/>
 					</Grid>
 					<Grid xs={12} item>
@@ -103,6 +115,7 @@ export const SignUp = () => {
 							error={errors.email ? true : false}
 							value={formValues.email}
 							onChange={handleChange}
+							required
 						/>
 					</Grid>
 					<Grid xs={12} item>

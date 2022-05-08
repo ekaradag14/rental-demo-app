@@ -13,13 +13,17 @@ import { deleteBikesFromContext } from '../../contexts/bikes/dispatchController'
 import { UserProps } from '../../common/types';
 import { deleteUsersFromContext } from '../../contexts/allUsers/dispatchController';
 
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
+import { alertMessages } from '../../common/helper/alertMessages';
+
 export const AppDataPage = (props: any) => {
 	const classes = useStyles();
 	//@ts-ignore
 	const { bikes, bikesDispatch } = useContext(BikesContext);
 	const { allUsers, allUsersDispatch } = useContext(AllUserContext);
 	const { user } = useContext(UserContext);
-
+	const { alertDispatch } = useContext(AlertContext);
 	const [bikeModal, setBikeModal] = useState(false);
 	const [userModal, setUserModal] = useState(false);
 	const [tableKey, setTableKey] = useState(0);
@@ -48,6 +52,7 @@ export const AppDataPage = (props: any) => {
 			return el.substring(ind + 4, el.length);
 		});
 		bikesDispatch(deleteBikesFromContext(bikesToDelete));
+		alertDispatch(setAlert(alertMessages.SUCCESSFUL_DELETE));
 		setTableKey((pS) => pS + 1);
 	};
 	const removeUsers = (usersToDelete) => {
@@ -57,6 +62,7 @@ export const AppDataPage = (props: any) => {
 			)
 			.map((el) => el.id);
 		allUsersDispatch(deleteUsersFromContext(deletingUsers));
+		alertDispatch(setAlert(alertMessages.SUCCESSFUL_DELETE));
 		setTableKey((pS) => pS + 1);
 	};
 	return (
@@ -84,7 +90,7 @@ export const AppDataPage = (props: any) => {
 						key={tableKey}
 						rowData={bikes.map((bike) => ({
 							...bike,
-							title: `R: ${bike.rating}, ${bike.model}, ${bike.location}, id: ${bike.id})`,
+							title: `R: ${bike.rating}, ${bike.model}, ${bike.location}, id: ${bike.id}`,
 						}))}
 						tableTitle="Bikes"
 						editAction={(bike) => {

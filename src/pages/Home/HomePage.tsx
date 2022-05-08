@@ -39,7 +39,9 @@ export const HomePage = (props: any) => {
 					Your Upcoming Bookings
 				</Typography>
 				<Grid container spacing={4} marginTop={1}>
-					{userReservations.length ? (
+					{userReservations.filter(
+						(reservation) => reservation.end > new Date().getTime()
+					).length ? (
 						userReservations
 							.filter((reservation) => reservation.end > new Date().getTime())
 							.map((reservation) => {

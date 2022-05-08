@@ -24,6 +24,10 @@ import { bikesData } from './data/bikes';
 import UserContext from './contexts/user/context';
 import userReducer from './contexts/user/reducer';
 
+import AlertContext from './contexts/alert/context';
+import alertReducer from './contexts/alert/reducer';
+import { clearAlert } from './contexts/alert/dispatchController';
+
 import AllUserContext from './contexts/allUsers/context';
 import allUserReducer from './contexts/allUsers/reducer';
 import { usersData } from './data/users';
@@ -72,10 +76,9 @@ const managerAuthRoutes = [
 ];
 
 const App = () => {
-	// const { dialogs, alert } = useAppSelector((state) => state.common);
-
 	const [bikes, bikesDispatch] = useReducer(bikeReducer, bikesData);
 	const [user, userDispatch] = useReducer(userReducer, UserContext);
+	const [alert, alertDispatch] = useReducer(alertReducer, AlertContext);
 	const [allUsers, allUsersDispatch] = useReducer(allUserReducer, usersData);
 	const isAuth = !!user?.email;
 	const isManager = user?.role === 'manager';
@@ -119,49 +122,53 @@ const App = () => {
 	return (
 		<>
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<UserContext.Provider value={{ user, userDispatch }}>
-					<AllUserContext.Provider value={{ allUsers, allUsersDispatch }}>
-						<Router>
-							{isAuth ? (
-								<>
-									{/* @ts-ignore */}
-									<BikesContext.Provider value={{ bikes, bikesDispatch }}>
-										<AppBar />
-										<Grid style={{ height: 70 }} />
-										<Switch>
-											{routes.auth.map(({ path, exact, component }, index) => (
-												<Route
-													key={index}
-													exact={exact}
-													path={path}
-													component={component}
-												/>
-											))}
-										</Switch>
-									</BikesContext.Provider>
-								</>
-							) : (
-								<WelcomePage>
-									{routes.notAuth.map(({ path, exact, component }, index) => (
-										<Route
-											key={index}
-											path={path}
-											exact={exact}
-											component={component}
-										/>
-									))}
-								</WelcomePage>
-							)}
-						</Router>
-					</AllUserContext.Provider>
-				</UserContext.Provider>
+				<AlertContext.Provider value={{ alert, alertDispatch }}>
+					<UserContext.Provider value={{ user, userDispatch }}>
+						<AllUserContext.Provider value={{ allUsers, allUsersDispatch }}>
+							<Router>
+								{isAuth ? (
+									<>
+										{/* @ts-ignore */}
+										<BikesContext.Provider value={{ bikes, bikesDispatch }}>
+											<AppBar />
+											<Grid style={{ height: 70 }} />
+											<Switch>
+												{routes.auth.map(
+													({ path, exact, component }, index) => (
+														<Route
+															key={index}
+															exact={exact}
+															path={path}
+															component={component}
+														/>
+													)
+												)}
+											</Switch>
+										</BikesContext.Provider>
+									</>
+								) : (
+									<WelcomePage>
+										{routes.notAuth.map(({ path, exact, component }, index) => (
+											<Route
+												key={index}
+												path={path}
+												exact={exact}
+												component={component}
+											/>
+										))}
+									</WelcomePage>
+								)}
+							</Router>
+						</AllUserContext.Provider>
+					</UserContext.Provider>
+					{alert?.isOpen && (
+						<AlertBar
+							{...alert}
+							alertClear={() => alertDispatch(clearAlert())}
+						/>
+					)}
+				</AlertContext.Provider>
 			</MuiPickersUtilsProvider>
-			{/* {alert?.isOpen && (
-				<AlertBar
-					{...alert}
-					alertClear={() => dispatch(CommonActions.clearAlert())}
-				/>
-			)} */}
 		</>
 	);
 };

@@ -19,15 +19,20 @@ import { TextField } from '..//TextField/TextField';
 import { useStyles } from './Login.style';
 import AllUserContext from '../../contexts/allUsers/context';
 
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
+
 import UserContext from '../../contexts/user/context';
 import { setUser } from '../../contexts/user/dispatchController';
 import { UserProps } from '../../common/types';
+import { alertMessages } from '../../common/helper/alertMessages';
 var CryptoJS = require('crypto-js');
 export const Login = () => {
 	const classes = useStyles();
-	// const dispatch = useAppDispatch();
+
 	const { user, userDispatch } = useContext(UserContext);
 	const { allUsers } = useContext(AllUserContext);
+	const { alertDispatch } = useContext(AlertContext);
 	const [loading, setLoading] = useState(false);
 
 	const emailRef = useRef({ value: '' });
@@ -55,6 +60,8 @@ export const Login = () => {
 		});
 		if (isValidUser) {
 			userDispatch(setUser(isValidUser));
+		} else {
+			alertDispatch(setAlert(alertMessages.INVALID_CREDENTIALS));
 		}
 
 		setLoading(false);

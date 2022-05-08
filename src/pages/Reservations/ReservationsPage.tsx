@@ -42,6 +42,8 @@ const createReservations = (
 		}))
 		.filter((res) => {
 			if (
+				!res.bike ||
+				!res.user ||
 				(selectedBikes.length && !selectedBikes.includes(res.bikeId)) ||
 				(selectedUsers.length && !selectedUsers.includes(res.userId)) ||
 				(startDate && res.start < startDate.getTime()) ||
@@ -64,8 +66,8 @@ export const ReservationsPage = (props: any) => {
 	const [startDate, setStartDate] = useState<Date | null>(null);
 	const [endDate, setEndDate] = useState<Date | null>(null);
 
-	const { bikes, bikesDispatch } = useContext(BikesContext);
-	const { allUsers, allUsersDispatch } = useContext(AllUserContext);
+	const { bikes } = useContext(BikesContext);
+	const { allUsers } = useContext(AllUserContext);
 
 	useEffect(() => {
 		setReservations(

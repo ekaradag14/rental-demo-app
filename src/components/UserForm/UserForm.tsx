@@ -15,6 +15,11 @@ import {
 	addUserToContext,
 	updateUserInContext,
 } from '../../contexts/allUsers/dispatchController';
+
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
+import { alertMessages } from '../../common/helper/alertMessages';
+
 import { generateRandomID } from '../../common/helper/utils';
 const initialFValues = {
 	firstName: '',
@@ -23,6 +28,7 @@ const initialFValues = {
 	password: '',
 	role: '',
 };
+
 var CryptoJS = require('crypto-js');
 
 export const UserForm = ({
@@ -34,6 +40,7 @@ export const UserForm = ({
 	const [isManager, setIsManager] = useState(
 		initialUser?.role === 'manager' || isCreatingManager
 	);
+	const { alertDispatch } = useContext(AlertContext);
 	const { allUsers, allUsersDispatch } = useContext(AllUserContext);
 	const validate = (fieldValues = values) => {
 		let temp = { ...errors };
@@ -71,6 +78,7 @@ export const UserForm = ({
 				} else {
 					values.role = 'user';
 				}
+				alertDispatch(setAlert(alertMessages.SUCCESSFUL_SAVE));
 				allUsersDispatch(updateUserInContext(values));
 			} else {
 				const newUserData = {
@@ -84,7 +92,7 @@ export const UserForm = ({
 					role: isManager ? 'manager' : 'user',
 					reservations: [],
 				};
-
+				alertDispatch(setAlert(alertMessages.SUCCESSFUL_SAVE));
 				allUsersDispatch(addUserToContext(newUserData));
 			}
 

@@ -19,6 +19,9 @@ import UserContext from '../../contexts/user/context';
 import { removeBikeReservationInContext } from '../../contexts/bikes/dispatchController';
 import { removeReservationInContext } from '../../contexts/user/dispatchController';
 import { shortenText } from '../../common/helper/utils';
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
+import { alertMessages } from '../../common/helper/alertMessages';
 
 export const BikeCard = ({
 	id,
@@ -36,11 +39,13 @@ export const BikeCard = ({
 	const classes = useStyles();
 	const { bikesDispatch } = useContext(BikesContext);
 	const { userDispatch } = useContext(UserContext);
+	const { alertDispatch } = useContext(AlertContext);
 	const [isRentModalOpen, setIsRentModalOpen] = useState(false);
 	const handleSubmit = () => {
 		if (reservationId) {
 			bikesDispatch(removeBikeReservationInContext(reservationId, id));
 			userDispatch(removeReservationInContext(reservationId));
+			alertDispatch(setAlert(alertMessages.SUCCESSFUL_CANCEL));
 			setRenderKey((pS) => pS + 1);
 		} else {
 			setIsRentModalOpen(true);

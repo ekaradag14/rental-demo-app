@@ -1,27 +1,28 @@
 export const alertMessages = {
 	UNAUTHORIZED: {
 		isOpen: true,
-		message: 'You are unauthorized, please login again to terminate your process.',
-		severity: 'error',
+		message:
+			'You are unauthorized, please login again to terminate your process.',
+		severity: 'warning',
 	},
-	LIMIT_OVERFLOW: {
+	INVALID_CREDENTIALS: {
 		isOpen: true,
-		message: 'Your usage limit has been reached.',
-		severity: 'error',
+		message: 'No matching email and password.',
+		severity: 'warning',
 	},
 	SUCCESSFUL_SAVE: {
 		isOpen: true,
 		message: `Item saved successfully.`,
 		severity: 'success',
 	},
-	SUCCESSFUL_DELETE: {
+	SUCCESSFUL_RENT: {
 		isOpen: true,
-		message: 'Item deleted successfully.',
+		message: `Bike rented successfully.`,
 		severity: 'success',
 	},
-	SUCCESSFUL_RELOAD: {
+	SUCCESSFUL_CANCEL: {
 		isOpen: true,
-		message: 'Item reload successfully.',
+		message: 'Bike reservation cancelled successfully.',
 		severity: 'success',
 	},
 	SOMETHING_WRONG: {
@@ -29,9 +30,9 @@ export const alertMessages = {
 		message: 'Something has gone wrong, please try again.',
 		severity: 'error',
 	},
-	SUCCESSFUL_SELECT: {
+	SUCCESSFUL_DELETE: {
 		isOpen: true,
-		message: 'Text selected successfully',
+		message: 'Item(s) deleted successfully',
 		severity: 'success',
 	},
 	CUSTOM_ERROR: (message: string) => ({

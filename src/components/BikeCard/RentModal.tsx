@@ -13,6 +13,9 @@ import BikesContext from '../../contexts/bikes/context';
 import UserContext from '../../contexts/user/context';
 import { addBikeReservationInContext } from '../../contexts/bikes/dispatchController';
 import { addReservationToUser } from '../../contexts/user/dispatchController';
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
+import { alertMessages } from '../../common/helper/alertMessages';
 export interface RentModalProps {
 	open: boolean;
 	bike: any;
@@ -26,7 +29,7 @@ export const RentModal = (props: RentModalProps) => {
 	const [maxDate, setMaxDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
 	const [minDate, setMinDate] = useState(null);
-
+	const { alertDispatch } = useContext(AlertContext);
 	const { bikesDispatch } = useContext(BikesContext);
 	const { user, userDispatch } = useContext(UserContext);
 	const handleClose = () => {
@@ -65,6 +68,7 @@ export const RentModal = (props: RentModalProps) => {
 		};
 		bikesDispatch(addBikeReservationInContext(reservation, bike.id));
 		userDispatch(addReservationToUser(reservation));
+		alertDispatch(setAlert(alertMessages.SUCCESSFUL_RENT));
 		handleClose();
 	};
 	useEffect(() => {

@@ -28,8 +28,11 @@ import {
 	addBikeToContext,
 	updateBikeInContext,
 } from '../../contexts/bikes/dispatchController';
-
+import UserContext from '../../contexts/user/context';
+import AlertContext from '../../contexts/alert/context';
+import { setAlert } from '../../contexts/alert/dispatchController';
 import { generateRandomID } from '../../common/helper/utils';
+import { alertMessages } from '../../common/helper/alertMessages';
 
 const initialFValues = {
 	model: '',
@@ -49,10 +52,11 @@ export const CreateBike = ({
 	initialBike?: any;
 }) => {
 	const classes = useStyles();
+	const { user, userDispatch } = useContext(UserContext);
 	const [imageToBeUploaded, setImageToBeUploaded] = useState<File[]>([]);
 	const [dropzoneKey, setDropzoneKey] = useState(0);
 	const [generalError, setGeneralError] = useState('');
-
+	const { alertDispatch } = useContext(AlertContext);
 	//@ts-ignore
 	const theme = createTheme(overrideTheme);
 	const { bikes, bikesDispatch } = useContext(BikesContext);
@@ -108,7 +112,7 @@ export const CreateBike = ({
 								img: srcData,
 							})
 						);
-
+						alertDispatch(setAlert(alertMessages.SUCCESSFUL_SAVE));
 						close();
 					};
 					fileReader.readAsDataURL(imageToBeUploaded[0]);
@@ -119,6 +123,7 @@ export const CreateBike = ({
 							rating,
 						})
 					);
+					alertDispatch(setAlert(alertMessages.SUCCESSFUL_SAVE));
 					close();
 				}
 			} else {
@@ -134,6 +139,7 @@ export const CreateBike = ({
 							rating,
 						})
 					);
+					alertDispatch(setAlert(alertMessages.SUCCESSFUL_SAVE));
 					close();
 				};
 				fileReader.readAsDataURL(imageToBeUploaded[0]);
