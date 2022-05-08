@@ -1,4 +1,4 @@
-describe('Authentication', () => {
+describe('Navigation', () => {
 	beforeEach(() => {
 		cy.login('eren.can.karadag@hotmail.com', '123456789');
 		cy.url().should('include', '/home');
