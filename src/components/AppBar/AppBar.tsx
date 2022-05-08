@@ -181,7 +181,8 @@ const AppBarComponent = () => {
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 								<Avatar alt="Remy Sharp">
-									{user.firstName[0] + user.lastName[0]}
+									{user.firstName[0].toUpperCase() +
+										user.lastName[0].toUpperCase()}
 								</Avatar>
 							</IconButton>
 						</Tooltip>

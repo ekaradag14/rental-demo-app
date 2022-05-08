@@ -10,16 +10,16 @@ export const usersData: UserProps[] = [
 		reservations: [
 			{
 				bikeId: 'ggfsbas',
-				end: 1651862246000,
+				end: 1653053108000,
 				reservationId: 'boz7qhhh6zk',
-				start: 1651689443000,
+				start: 1652707493000,
 				userId: 'asygduab',
 			},
 			{
 				bikeId: 'hcdsbas',
-				end: 1651862246000,
+				end: 1652880318000,
 				reservationId: 'boz7xchh6zk',
-				start: 1651689443000,
+				start: 1652707515000,
 				userId: 'asygduab',
 			},
 		],
